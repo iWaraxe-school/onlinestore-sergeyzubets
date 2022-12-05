@@ -2,7 +2,6 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
-
 import java.util.*;
 
 public class Store {

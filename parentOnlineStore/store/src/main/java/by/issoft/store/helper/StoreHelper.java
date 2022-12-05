@@ -10,9 +10,9 @@ import java.util.*;
 
 public class StoreHelper {
 
-    Store store;
     private static final int RANDOM_MIN = 1;
     private static final int RANDOM_MAX = 10;
+    Store store;
 
     public StoreHelper(Store store) {
         this.store = store;
@@ -20,23 +20,23 @@ public class StoreHelper {
 
     public void fillStoreRandomly() {
         RandomStorePopulator storePopulator = new RandomStorePopulator(store.getDefaultStoreLocale());
-        Map<Category, Integer> setOfCategories = getSetOfCategories();
+        Map<Category, Integer> categoriesPool = populateCategoriesPool();
 
-        for (Map.Entry<Category, Integer> entry : setOfCategories.entrySet()) {
+        for (Map.Entry<Category, Integer> entry : categoriesPool.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++){
                 Product product = new Product(
-                        storePopulator.generateProductName(entry.getKey().getCategoryName()),
-                        storePopulator.generateProductRate(),
-                        storePopulator.generateProductPrice(),
-                        entry.getKey().getCategoryName(),
-                        store.getDefaultStoreCurrency());
+                        storePopulator.generateProductName(entry.getKey().getCategoryName()),   //Product Name
+                        storePopulator.generateProductRate(),                                   //Product Rate
+                        storePopulator.generateProductPrice(),                                  //Product Price
+                        entry.getKey().getCategoryName(),                                       //Product Category Name
+                        store.getDefaultStoreCurrency());                                       //Product Currency
                 entry.getKey().addProduct(product);
             }
             store.addCategory(entry.getKey());
         }
     }
 
-    private static Map<Category, Integer> getSetOfCategories() {
+    private static Map<Category, Integer> populateCategoriesPool() {
         Map<Category, Integer> setOfCategories = new HashMap<>();
         Reflections reflections = new Reflections ("by.issoft.domain.categories");
         //get all categories

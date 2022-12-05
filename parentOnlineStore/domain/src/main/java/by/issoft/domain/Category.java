@@ -1,5 +1,6 @@
 package by.issoft.domain;
 
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public abstract class Category {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+        //Input validation
+        Preconditions.checkArgument(!categoryName.equals(""), "Category Name must be populated. Provided Category Name is empty");
     }
 
     public List<Product> getProductsList() {
@@ -35,6 +38,6 @@ public abstract class Category {
 
     @Override
     public String toString() {
-        return "Category name=" + categoryName + ", list of products:" + productsList.toString();
+        return "Category name=" + this.categoryName + ", list of products:" + this.productsList.toString();
     }
 }

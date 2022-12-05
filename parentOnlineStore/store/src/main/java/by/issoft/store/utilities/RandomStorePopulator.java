@@ -1,43 +1,51 @@
 package by.issoft.store.utilities;
 
+import by.issoft.domain.utilities.Price;
+import by.issoft.domain.utilities.ProductName;
+import by.issoft.domain.utilities.Rate;
 import com.github.javafaker.Faker;
-import java.util.Locale;
+import java.util.*;
+import static by.issoft.domain.utilities.Price.getMaxProductPriceValue;
+import static by.issoft.domain.utilities.ProductName.getMaxProductNameLength;
+import static by.issoft.domain.utilities.Rate.getMaxProductRateValue;
 
 public class RandomStorePopulator {
 
-    private static final int MAX_GENERATED_PRODUCT_NAME_LENGHT = 10;
-    private static final int MAX_GENERATED_PRODUCT_RATE_AMOUNT = 100;
-    private static final int MAX_GENERATED_PRODUCT_PRICE_AMOUNT = 10_000;
     Faker faker;
 
     public RandomStorePopulator(Locale defaultStoreLocale) {
         faker = new Faker(defaultStoreLocale);
     }
 
-    public String generateProductName (String categoryName) {
-        String generatedProductName;
+    public ProductName generateProductName (String categoryName) {
+        ProductName generatedProductName;
         switch(categoryName) {
             case "BikeCategory":
-                generatedProductName = faker.music().genre();
+                generatedProductName = ProductName.of(faker.music().genre());
                 break;
             case "MilkCategory":
-                generatedProductName = faker.animal().name();
+                generatedProductName = ProductName.of(faker.animal().name());
                 break;
             case "PhoneCategory":
-                generatedProductName = faker.commerce().productName();
+                generatedProductName = ProductName.of(faker.commerce().productName());
                 break;
             default:
-                generatedProductName = faker.lorem().fixedString(MAX_GENERATED_PRODUCT_NAME_LENGHT);
+                generatedProductName = ProductName.of(faker.lorem().fixedString(getMaxProductNameLength()));
         }
         return generatedProductName;
     }
 
-    public int generateProductRate () {
-        return this.faker.random().nextInt(MAX_GENERATED_PRODUCT_RATE_AMOUNT);
+    public Rate generateProductRate () {
+        return Rate.of(faker.random().nextInt(getMaxProductRateValue()));
     }
 
-    public int generateProductPrice () {
-        return this.faker.random().nextInt(MAX_GENERATED_PRODUCT_PRICE_AMOUNT);
+    public Price generateProductPrice () {
+        Price generatedPrice = Price.of(faker.random().nextInt(getMaxProductPriceValue()));
+        //faker validation: price cannot be <= 0
+        while (generatedPrice.getValue() <= 0) {
+            generatedPrice = Price.of(faker.random().nextInt(getMaxProductPriceValue()));
+        }
+        return generatedPrice;
     }
 
 }
