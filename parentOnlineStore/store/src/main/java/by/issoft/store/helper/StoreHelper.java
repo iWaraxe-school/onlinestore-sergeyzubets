@@ -4,14 +4,15 @@ import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 import by.issoft.store.Store;
 import by.issoft.store.utilities.RandomStorePopulator;
+import by.issoft.store.utilities.StoreConstants;
 import org.reflections.Reflections;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class StoreHelper {
 
-    private static final int RANDOM_MIN = 1;
-    private static final int RANDOM_MAX = 10;
+    private static final int lowerRandomLimit = StoreConstants.StorePopulator.RANDOM_MIN;
+    private static final int upperRandomLimit = StoreConstants.StorePopulator.RANDOM_MAX;
     Store store;
 
     public StoreHelper(Store store) {
@@ -44,8 +45,8 @@ public class StoreHelper {
         //generate random product amount for each category
         for (Class<? extends Category> categoryType : subTypes) {
             try {
-                Random randomProductsAmount = new Random(); // random int from RANDOM_MIN to RANDOM_MAX
-                setOfCategories.put(categoryType.getConstructor().newInstance(), randomProductsAmount.nextInt(RANDOM_MAX - RANDOM_MIN) + RANDOM_MIN);
+                Random randomProductsAmount = new Random(); // random int from lowerRandomLimit to upperRandomLimit
+                setOfCategories.put(categoryType.getConstructor().newInstance(), randomProductsAmount.nextInt(upperRandomLimit - lowerRandomLimit) + lowerRandomLimit);
             } catch (InvocationTargetException e) {
                 throw new RuntimeException(e);
             } catch (InstantiationException e) {
