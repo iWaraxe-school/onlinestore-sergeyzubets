@@ -2,6 +2,7 @@ package by.issoft.consoleApp;
 
 import by.issoft.store.Store;
 import by.issoft.store.helper.StoreHelper;
+import by.issoft.store.helper.XMLParser;
 
 public class StoreApp {
 
@@ -15,7 +16,7 @@ public class StoreApp {
         storeHelper.fillStoreRandomly();
         store.printAllProductsAsPerCategory();
 
-
+        System.out.println(XMLParser.getSortingConfigFromFile());
     }
 
 }

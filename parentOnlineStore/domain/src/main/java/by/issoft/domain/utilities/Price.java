@@ -1,14 +1,17 @@
 package by.issoft.domain.utilities;
 
+import by.issoft.store.utilities.StoreConstants;
 import com.google.common.base.Preconditions;
 import java.util.*;
 
 public class Price {
 
-    private static final int MAX_PRODUCT_PRICE_VALUE = 10_000;
-    public static final String PRICE_PATTERN = "###,###,###.##";
+    public static final int productPriceMinValue = StoreConstants.ProductConstants.PriceConstants.MIN_PRODUCT_PRICE_VALUE;
+    public static final int productPriceMaxValue = StoreConstants.ProductConstants.PriceConstants.MAX_PRODUCT_PRICE_VALUE;
+    public static final String productPriceIsEmptyErrorMessage = StoreConstants.ProductConstants.PriceConstants.PRICE_LESS_OR_EQUALS_MIN_VALUE_ERROR_MESSAGE;
+    public static final String productPriceExceedsMaxErrorMessage = StoreConstants.ProductConstants.PriceConstants.PRICE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE;
     private final int price;
-    private static final Map<Integer, Price> pricesPool = new HashMap<>();
+    private static final Map<Integer, Price> poolOfPrices = new HashMap<>();
 
     private Price(int price) {
         this.price = price;
@@ -16,17 +19,16 @@ public class Price {
 
     public static Price of(int price) {
         //Input validation
-        Preconditions.checkArgument(price > 0,"Price must be more than 0 " + price);
-        Preconditions.checkArgument(price <= MAX_PRODUCT_PRICE_VALUE,
-                "Price must be less than " + MAX_PRODUCT_PRICE_VALUE + ". Current value " + price);
+        Preconditions.checkArgument(price > productPriceMinValue, productPriceIsEmptyErrorMessage);
+        Preconditions.checkArgument(price <= productPriceMaxValue, productPriceExceedsMaxErrorMessage + price);
 
-        final Price priceFromPool = pricesPool.get(price);
+        final Price priceFromPool = poolOfPrices.get(price);
 
         if (priceFromPool != null) {
             return priceFromPool;
         }
         final Price newPrice = new Price(price);
-        pricesPool.put(price, newPrice);
+        poolOfPrices.put(price, newPrice);
         return newPrice;
     }
 
@@ -34,15 +36,7 @@ public class Price {
         return price;
     }
 
-    public static int getMaxProductPriceValue() {
-        return MAX_PRODUCT_PRICE_VALUE;
-    }
-
-    public static String getPricePattern() {
-        return PRICE_PATTERN;
-    }
-
     public static String printPricesPool() {
-        return pricesPool.keySet().toString();
+        return poolOfPrices.keySet().toString();
     }
 }

@@ -1,14 +1,18 @@
 package by.issoft.domain.utilities;
 
+import by.issoft.store.utilities.StoreConstants;
 import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProductName {
 
-    private static final int MAX_PRODUCT_NAME_LENGTH = 50;
+    public static final int minProductNameLength = StoreConstants.ProductConstants.NameConstants.MIN_PRODUCT_NAME_LENGTH;
+    public static final int maxProductNameLength = StoreConstants.ProductConstants.NameConstants.MAX_PRODUCT_NAME_LENGTH;
+    public static final String productNameIsEmptyErrorMessage = StoreConstants.ProductConstants.NameConstants.NAME_IS_EMPTY_ERROR_MESSAGE;
+    public static final String productNameLengthExceedsMaxErrorMessage = StoreConstants.ProductConstants.NameConstants.NAME_LENGTH_EXCEEDS_MAX_VALUE_ERROR_MESSAGE;
     private final String productName;
-    private static final Map<String, ProductName> productNamesPool = new HashMap<>();
+    private static final Map<String, ProductName> poolOfProductNames = new HashMap<>();
 
     private ProductName(String productName) {
         this.productName = productName;
@@ -16,18 +20,16 @@ public class ProductName {
 
     public static ProductName of(String productName) {
         //Input validation
-        Preconditions.checkArgument(!productName.equals(""),"Product Name cannot be empty");
-        Preconditions.checkArgument(productName.length() <= MAX_PRODUCT_NAME_LENGTH,
-                "The length of  Product Name must be "+ MAX_PRODUCT_NAME_LENGTH
-                        + " characters or fewer. You entered " + productName.length() + " characters.");
+        Preconditions.checkArgument(productName.length() > minProductNameLength, productNameIsEmptyErrorMessage);
+        Preconditions.checkArgument(productName.length() <= maxProductNameLength, productNameLengthExceedsMaxErrorMessage + productName.length());
 
-        final ProductName rateFromPool = productNamesPool.get(productName);
+        final ProductName nameFromPool = poolOfProductNames.get(productName);
 
-        if (rateFromPool != null) {
-            return rateFromPool;
+        if (nameFromPool != null) {
+            return nameFromPool;
         }
         final ProductName newProductName = new ProductName(productName);
-        productNamesPool.put(productName, newProductName);
+        poolOfProductNames.put(productName, newProductName);
         return newProductName;
     }
 
@@ -36,11 +38,7 @@ public class ProductName {
         return this.productName;
     }
 
-    public static int getMaxProductNameLength() {
-        return MAX_PRODUCT_NAME_LENGTH;
-    }
-
     public static String printProductNamesPool() {
-        return productNamesPool.keySet().toString();
+        return poolOfProductNames.keySet().toString();
     }
 }
