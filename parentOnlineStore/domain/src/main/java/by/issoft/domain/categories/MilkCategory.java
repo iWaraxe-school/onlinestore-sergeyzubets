@@ -4,8 +4,10 @@ import by.issoft.domain.Category;
 
 public class MilkCategory extends Category {
 
+    public static final String name = "Milk";
+
     public MilkCategory() {
-        super(MilkCategory.class.getSimpleName());
+        super(MilkCategory.name);
     }
 
 }

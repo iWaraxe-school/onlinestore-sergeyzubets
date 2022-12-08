@@ -33,6 +33,10 @@ public class ProductName {
         return newProductName;
     }
 
+    public String getValue() {
+        return productName;
+    }
+
     @Override
     public String toString() {
         return this.productName;
