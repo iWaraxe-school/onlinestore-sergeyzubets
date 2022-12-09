@@ -14,8 +14,7 @@ public class Sorting {
 
     public static final int topXByPriceProducts = StoreConstants.StoreSorting.TOP_X_BY_PRICE_PRODUCTS;
     public static final String noProductsToSort = StoreConstants.StoreSorting.NO_PRODUCTS_TO_SORT;
-    public static Set<String> sortingKeyAttributes;
-    public static Collection<String> sortingValueAttributes;
+    private final List<String> sortingCong;
     StoreComparator comparator;
     Store store;
 
@@ -23,24 +22,21 @@ public class Sorting {
         ConfigParser configParser = new ConfigParser();
         Map<String, String> sortConf = configParser.getSortingConfigFromFile();
         comparator = new StoreComparator(sortConf);
-        sortingKeyAttributes = sortConf.keySet();
-        sortingValueAttributes = sortConf.values();
+        sortingCong = new ArrayList<>(Collections.singleton(sortConf.toString()));
         this.store = store;
     }
 
     public void printSortedProducts(List<Product> listOfProducts) {
-        List<String> listOfSortFields = sortingKeyAttributes.stream()
-                .map(String::toUpperCase).collect(Collectors.toList());
-        List<String> listOfSortOptions = new ArrayList<>(sortingValueAttributes);
-
+        String sortingParam = sortingCong.toString()
+                .replace("[{", "")
+                .replace("}]", "")
+                .replace("=", " - ");
         List<Product> sortedListOfProducts = listOfProducts.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
         Preconditions.checkArgument(sortedListOfProducts.size() > 0, noProductsToSort);
-        String sortResult = "All store products are sorted by "
-                + listOfSortFields.get(0) + " " + listOfSortOptions.get(0) + " primary, by "
-                + listOfSortFields.get(1) + " " + listOfSortOptions.get(1) + " secondary, and by "
-                + listOfSortFields.get(2) + " " + listOfSortOptions.get(2) + " tertiary" + '\n'
+        String sortResult = "All store products are sorted with the following configuration: "
+                + sortingParam + '\n'
                 + sortedListOfProducts.stream()
                 .findFirst()
                 .get()
