@@ -4,17 +4,18 @@ import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 import by.issoft.store.Store;
 import by.issoft.store.utilities.RandomStorePopulator;
-import by.issoft.store.utilities.StoreConstants;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static by.issoft.store.utilities.StoreConstants.StorePopulator.*;
+
 public class StoreHelper {
 
-    private static final int lowerRandomLimit = StoreConstants.StorePopulator.RANDOM_MIN;
-    private static final int upperRandomLimit = StoreConstants.StorePopulator.RANDOM_MAX;
-    public static final String categoryPackagePath = StoreConstants.StorePopulator.CATEGORY_PACKAGE_PATH;
+    private static final int lowerRandomLimit = RANDOM_MIN;
+    private static final int upperRandomLimit = RANDOM_MAX;
+    public static final String categoryPackagePath = CATEGORY_PACKAGE_PATH;
     Store store;
 
     public StoreHelper(Store store) {

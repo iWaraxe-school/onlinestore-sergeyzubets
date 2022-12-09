@@ -38,6 +38,7 @@ public interface StoreConstants {
     interface StoreConfigFile {
         String DEFAULT_CONFIG_FILE_PATH = "/parentOnlineStore/store/src/main/resources/";
         String CONFIG_FILE_IS_NOT_FOUND_ERROR_MESSAGE = "Config File is not found in " + DEFAULT_CONFIG_FILE_PATH;
+        String CONFIG_FILE_WITHOUT_CONFIG = "Config File does not contain sorting configuration.";
     }
 
     interface StorePopulator {
@@ -53,6 +54,22 @@ public interface StoreConstants {
     interface StoreSorting {
         int TOP_X_BY_PRICE_PRODUCTS = 5;
         String NO_PRODUCTS_TO_SORT = "There are no products to sort";
+    }
+
+    interface ConsoleApp {
+        String TOP = "top";
+        String TOP_DESCRIPTION = "To print top " + StoreSorting.TOP_X_BY_PRICE_PRODUCTS + " products of whole store sorted via price DESC.";
+        String SORT = "sort";
+        String SORT_DESCRIPTION = "To print products from store according to the configuration.";
+        String QUIT = "quit";
+        String QUIT_DESCRIPTION = "To exit app";
+        String INCORRECT_INPUT = "Unacceptable command.";
+        String GREETING_MESSAGE = '\n' + "Hello! Welcome to the Store.";
+        String GOODBYE_MESSAGE = '\n' + "Thank you for using the Store. See you next time.";
+        String AVAILABLE_COMMANDS = "Please use the following commands:" + '\n'
+                + "* " + TOP + " - " + TOP_DESCRIPTION + '\n'
+                + "* " + SORT + " - " + SORT_DESCRIPTION + '\n'
+                + "* " + QUIT + " - " + QUIT_DESCRIPTION;
     }
 
 }

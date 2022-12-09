@@ -1,5 +1,6 @@
 package by.issoft.consoleApp;
 
+import by.issoft.consoleApp.utilities.ConsoleApp;
 import by.issoft.store.Store;
 import by.issoft.store.helper.Sorting;
 import by.issoft.store.helper.StoreHelper;
@@ -15,13 +16,16 @@ public class StoreApp {
         Store store = new Store();
         StoreHelper storeHelper = new StoreHelper(store);
         Sorting sorting = new Sorting(store);
+        ConsoleApp consoleApp = new ConsoleApp(store, sorting);
 
         //store populating
         storeHelper.populateStoreViaFaker();
 
+        //print full store
         System.out.println(store);
-        sorting.printTopProducts();
-        sorting.printSortedProducts(store.getListOfAllProducts());
+
+        //console
+        consoleApp.start();
 
     }
 

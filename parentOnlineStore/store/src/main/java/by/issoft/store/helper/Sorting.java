@@ -4,16 +4,17 @@ import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 import by.issoft.store.Store;
 import by.issoft.store.utilities.StoreComparator;
-import by.issoft.store.utilities.StoreConstants;
 import com.google.common.base.Preconditions;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static by.issoft.store.utilities.StoreConstants.StoreSorting.*;
+
 public class Sorting {
 
-    public static final int topXByPriceProducts = StoreConstants.StoreSorting.TOP_X_BY_PRICE_PRODUCTS;
-    public static final String noProductsToSort = StoreConstants.StoreSorting.NO_PRODUCTS_TO_SORT;
+    public static final int topXByPriceProducts = TOP_X_BY_PRICE_PRODUCTS;
+    public static final String noProductsToSort = NO_PRODUCTS_TO_SORT;
     private final List<String> sortingCong;
     StoreComparator comparator;
     Store store;

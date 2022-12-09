@@ -2,14 +2,14 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
-import by.issoft.store.helper.Sorting;
-import by.issoft.store.utilities.StoreConstants;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static by.issoft.store.utilities.StoreConstants.Store.*;
+
 public class Store {
-    private static final Locale defaultLocale = StoreConstants.Store.DEFAULT_LOCALE;
+    private static final Locale defaultLocale = DEFAULT_LOCALE;
     private List<Category> categoryList;
     private Locale storeLocale;
 
@@ -61,12 +61,10 @@ public class Store {
     }
 
     public List<Product> getListOfAllProducts() {
-        List<Product> listofAllProducts = new ArrayList<>();
-        listofAllProducts = categoryList.stream()
+        return categoryList.stream()
                 .map(Category::getListOfProducts)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-        return listofAllProducts;
     }
 
 }

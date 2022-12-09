@@ -6,13 +6,17 @@ import by.issoft.domain.utilities.Rate;
 import by.issoft.store.Store;
 import com.github.javafaker.Faker;
 
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.NameConstants.*;
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.RateConstants.*;
+
 public class RandomStorePopulator {
 
-    public static final int maxProductNameLength = StoreConstants.ProductConstants.NameConstants.MAX_PRODUCT_NAME_LENGTH;
-    public static final int productPriceMinValue = StoreConstants.ProductConstants.PriceConstants.MIN_PRODUCT_PRICE_VALUE;
-    public static final int productPriceMaxValue = StoreConstants.ProductConstants.PriceConstants.MAX_PRODUCT_PRICE_VALUE;
-    public static final int productRateMinValue = StoreConstants.ProductConstants.RateConstants.MIN_PRODUCT_RATE_VALUE;
-    public static final int productRateMaxValue = StoreConstants.ProductConstants.RateConstants.MAX_PRODUCT_RATE_VALUE;
+    public static final int maxProductNameLength = MAX_PRODUCT_NAME_LENGTH;
+    public static final int productPriceMinValue = MIN_PRODUCT_PRICE_VALUE;
+    public static final int productPriceMaxValue = MAX_PRODUCT_PRICE_VALUE;
+    public static final int productRateMinValue = MIN_PRODUCT_RATE_VALUE;
+    public static final int productRateMaxValue = MAX_PRODUCT_RATE_VALUE;
     Faker faker;
 
     public RandomStorePopulator(Store store) {

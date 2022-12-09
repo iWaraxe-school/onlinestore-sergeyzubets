@@ -4,13 +4,14 @@ import by.issoft.domain.utilities.PresentProductsAsTable;
 import by.issoft.domain.utilities.Price;
 import by.issoft.domain.utilities.ProductName;
 import by.issoft.domain.utilities.Rate;
-import by.issoft.store.utilities.StoreConstants;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
+
 public class Product {
-    private static final String pricePrintPattern = StoreConstants.ProductConstants.PriceConstants.PRICE_PRINT_PATTERN;
+    private static final String pricePrintPattern = PRICE_PRINT_PATTERN;
     private ProductName name;
     private Rate rate;
     private Price price;
