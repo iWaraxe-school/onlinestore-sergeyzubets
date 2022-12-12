@@ -1,25 +1,60 @@
 package by.issoft.domain;
 
-import java.util.Currency;
+import by.issoft.domain.utilities.PresentProductsAsTable;
+import by.issoft.domain.utilities.Price;
+import by.issoft.domain.utilities.ProductName;
+import by.issoft.domain.utilities.Rate;
+
+import java.text.DecimalFormat;
+import java.util.*;
+
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
 
 public class Product {
-    private final String categoryName;
-    private final String name;
-    private final int rate;
-    private final int price;
-    private final Currency productPriceCurrency;
+    private static final String pricePrintPattern = PRICE_PRINT_PATTERN;
+    private ProductName name;
+    private Rate rate;
+    private Price price;
 
-    public Product(String name, int rate, int price, String categoryName, Currency productPriceCurrency) {
+    public Product(ProductName name, Rate rate, Price price) {
         this.name = name;
         this.rate = rate;
         this.price = price;
-        this.categoryName = categoryName;
-        this.productPriceCurrency = productPriceCurrency;
+    }
+
+    public String getName() {
+        return this.name.getValue();
+    }
+
+    public void setName(ProductName name) {
+        this.name = ProductName.of(name.toString());
+    }
+
+    public int getRate() {
+        return this.rate.getValue();
+    }
+
+    public void setRate(Rate rate) {
+        this.rate = Rate.of(rate.getValue());
+    }
+
+    public int getPrice() {
+        return price.getValue();
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
     }
 
     @Override
     public String toString() {
-        return " Category: " + categoryName + " | Product: " + name + " | Rate: " + rate + " | Price, "+ productPriceCurrency + ": " + price;
+        return "Product: " + getName()
+                + " | Rate: " + this.getRate()
+                + " | Price: " + new DecimalFormat(pricePrintPattern).format(this.getPrice());
+    }
+
+    public String toStringAsPerLocale(List<Product> listOfProducts, Locale locale) {
+        return new PresentProductsAsTable().getProductsAsTableAsPerLocale(listOfProducts,locale);
     }
 
 }

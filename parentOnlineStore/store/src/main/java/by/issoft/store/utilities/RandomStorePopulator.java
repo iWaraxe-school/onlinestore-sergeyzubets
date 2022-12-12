@@ -1,43 +1,58 @@
 package by.issoft.store.utilities;
 
+import by.issoft.domain.utilities.Price;
+import by.issoft.domain.utilities.ProductName;
+import by.issoft.domain.utilities.Rate;
+import by.issoft.store.Store;
 import com.github.javafaker.Faker;
-import java.util.Locale;
+
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.NameConstants.*;
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
+import static by.issoft.store.utilities.StoreConstants.ProductConstants.RateConstants.*;
 
 public class RandomStorePopulator {
 
-    private static final int MAX_GENERATED_PRODUCT_NAME_LENGHT = 10;
-    private static final int MAX_GENERATED_PRODUCT_RATE_AMOUNT = 100;
-    private static final int MAX_GENERATED_PRODUCT_PRICE_AMOUNT = 10_000;
+    public static final int maxProductNameLength = MAX_PRODUCT_NAME_LENGTH;
+    public static final int productPriceMinValue = MIN_PRODUCT_PRICE_VALUE;
+    public static final int productPriceMaxValue = MAX_PRODUCT_PRICE_VALUE;
+    public static final int productRateMinValue = MIN_PRODUCT_RATE_VALUE;
+    public static final int productRateMaxValue = MAX_PRODUCT_RATE_VALUE;
     Faker faker;
 
-    public RandomStorePopulator(Locale defaultStoreLocale) {
-        faker = new Faker(defaultStoreLocale);
+    public RandomStorePopulator(Store store) {
+        faker = new Faker(store.getStoreLocale());
     }
 
-    public String generateProductName (String categoryName) {
-        String generatedProductName;
-        switch(categoryName) {
-            case "BikeCategory":
-                generatedProductName = faker.music().genre();
+    public ProductName generateProductName(String categoryName) {
+        ProductName generatedProductName;
+        switch (categoryName) {
+            case "Bike":
+                generatedProductName = ProductName.of(faker.name().fullName());
+                //generatedProductName = ProductName.of(faker.animal().name());
                 break;
-            case "MilkCategory":
-                generatedProductName = faker.animal().name();
+            case "Milk":
+                generatedProductName = ProductName.of(faker.animal().name());
                 break;
-            case "PhoneCategory":
-                generatedProductName = faker.commerce().productName();
+            case "Phone":
+                //generatedProductName = ProductName.of(faker.animal().name());
+                generatedProductName = ProductName.of(faker.commerce().productName());
                 break;
             default:
-                generatedProductName = faker.lorem().fixedString(MAX_GENERATED_PRODUCT_NAME_LENGHT);
+                generatedProductName = ProductName.of(faker.lorem().fixedString(maxProductNameLength));
         }
         return generatedProductName;
     }
 
-    public int generateProductRate () {
-        return this.faker.random().nextInt(MAX_GENERATED_PRODUCT_RATE_AMOUNT);
+    public Rate generateProductRate() {
+        return Rate.of(faker.number().numberBetween(productRateMinValue, productRateMaxValue));
     }
 
-    public int generateProductPrice () {
-        return this.faker.random().nextInt(MAX_GENERATED_PRODUCT_PRICE_AMOUNT);
+    public Price generateProductPrice() {
+        int generatedPrice = faker.random().nextInt(productPriceMaxValue);
+        while (generatedPrice <= productPriceMinValue) {
+            generatedPrice = faker.random().nextInt(productPriceMaxValue);
+        }
+        return Price.of(generatedPrice);
     }
 
 }
