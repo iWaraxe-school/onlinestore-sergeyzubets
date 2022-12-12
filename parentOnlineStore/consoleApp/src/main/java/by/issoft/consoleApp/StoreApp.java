@@ -1,8 +1,9 @@
 package by.issoft.consoleApp;
 
+import by.issoft.consoleApp.utilities.ConsoleApp;
 import by.issoft.store.Store;
+import by.issoft.store.helper.Sorting;
 import by.issoft.store.helper.StoreHelper;
-import by.issoft.store.helper.XMLParser;
 
 public class StoreApp {
 
@@ -11,12 +12,21 @@ public class StoreApp {
     The main purpose of this module is to run the store. */
     public static void main(String[] args) {
 
+        //store init
         Store store = new Store();
         StoreHelper storeHelper = new StoreHelper(store);
-        storeHelper.fillStoreRandomly();
-        store.printAllProductsAsPerCategory();
+        Sorting sorting = new Sorting(store);
+        ConsoleApp consoleApp = new ConsoleApp(store, sorting);
 
-        System.out.println(XMLParser.getSortingConfigFromFile());
+        //store populating
+        storeHelper.populateStoreViaFaker();
+
+        //print full store
+        System.out.println(store);
+
+        //console
+        consoleApp.start();
+
     }
 
 }

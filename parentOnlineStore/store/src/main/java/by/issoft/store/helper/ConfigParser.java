@@ -1,28 +1,31 @@
 package by.issoft.store.helper;
 
-import by.issoft.store.utilities.StoreConstants;
 import com.google.common.base.Preconditions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class XMLParser {
+import static by.issoft.store.utilities.StoreConstants.StoreConfigFile.*;
 
-    private static final String configFileIsNotFoundErrorMessage = StoreConstants.StoreConfigFile.CONFIG_FILE_IS_NOT_FOUND_ERROR_MESSAGE;
+public class ConfigParser {
+
+    private static final String configFileIsNotFoundErrorMessage = CONFIG_FILE_IS_NOT_FOUND_ERROR_MESSAGE;
+    private static final String configFileIsEmpty = CONFIG_FILE_WITHOUT_CONFIG;
     private static final String configFileName = "config.xml";
 
-    public static Map<String, String> getSortingConfigFromFile() {
-        Map<String, String> sortingRules = new LinkedHashMap<>();
+    public Map<String, String> getSortingConfigFromFile() {
+        Map<String, String> sortRules = new LinkedHashMap<>();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            URL configFileUrl = XMLParser.class.getClassLoader().getResource(configFileName);
+            URL configFileUrl = ConfigParser.class.getClassLoader().getResource(configFileName);
             Preconditions.checkArgument(configFileUrl != null, configFileIsNotFoundErrorMessage);
 
             Document configDoc = dBuilder.parse(configFileUrl.getPath());
@@ -31,17 +34,16 @@ public class XMLParser {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    sortingRules.put(node.getNodeName(), node.getTextContent());
+                    sortRules.put(node.getNodeName().toLowerCase(), node.getTextContent().toUpperCase());
                 }
             }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
+            Preconditions.checkArgument(sortRules.size() > 0, configFileIsEmpty);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new RuntimeException(e);
         }
-        return sortingRules;
+        return sortRules;
+
+
     }
 
 }

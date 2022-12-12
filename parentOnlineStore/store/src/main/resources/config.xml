@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sort>
-    <rate>asc</rate>
+<!--    <NAME>desc</NAME>-->
+<!--    <rate>ASC</rate>-->
     <price>desc</price>
-    <name>desc</name>
 </sort>
