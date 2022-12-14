@@ -61,6 +61,7 @@ public interface StoreConstants {
     }
 
     interface ConsoleApp {
+        int EXIT_STATUS = 0;
         String TOP = "top";
         String TOP_DESCRIPTION = "To print top " + StoreSorting.TOP_X_BY_PRICE_PRODUCTS + " products of whole store sorted via price DESC.";
         String SORT = "sort";
