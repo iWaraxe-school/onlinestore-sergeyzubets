@@ -16,16 +16,13 @@ public class StoreHelper {
     private static final int lowerRandomLimit = RANDOM_MIN;
     private static final int upperRandomLimit = RANDOM_MAX;
     public static final String categoryPackagePath = CATEGORY_PACKAGE_PATH;
-    Store store;
 
-    public StoreHelper(Store store) {
-        this.store = store;
+    public StoreHelper() {
     }
 
     public void populateStoreViaFaker() {
-        RandomStorePopulator storePopulator = new RandomStorePopulator(store);
+        RandomStorePopulator storePopulator = new RandomStorePopulator();
         Map<Category, Integer> poolOfCategories = populatePoolOfCategories();
-
         for (Map.Entry<Category, Integer> entry : poolOfCategories.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
                 Product product = new Product(
@@ -34,22 +31,22 @@ public class StoreHelper {
                         storePopulator.generateProductPrice());
                 entry.getKey().addProduct(product);
             }
-            store.addCategory(entry.getKey());
+            Store.getInstance().addCategory(entry.getKey());
         }
     }
 
     private static Map<Category, Integer> populatePoolOfCategories() {
-        Map<Category, Integer> setOfCategories = new HashMap<>();
+        Map<Category, Integer> mapOfCategories = new HashMap<>();
         Reflections reflections = new Reflections(categoryPackagePath);
         Set<Class<? extends Category>> subTypes = reflections.getSubTypesOf(Category.class);
         subTypes.forEach(subType -> {
             try {
-                setOfCategories.put(subType.getConstructor().newInstance(), new Random().nextInt(upperRandomLimit - lowerRandomLimit) + lowerRandomLimit);
+                mapOfCategories.put(subType.getConstructor().newInstance(), new Random().nextInt(upperRandomLimit - lowerRandomLimit) + lowerRandomLimit);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                      NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         });
-        return setOfCategories;
+        return mapOfCategories;
     }
 }

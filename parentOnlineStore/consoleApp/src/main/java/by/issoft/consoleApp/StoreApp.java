@@ -2,7 +2,6 @@ package by.issoft.consoleApp;
 
 import by.issoft.consoleApp.utilities.ConsoleApp;
 import by.issoft.store.Store;
-import by.issoft.store.helper.Sorting;
 import by.issoft.store.helper.StoreHelper;
 
 public class StoreApp {
@@ -13,10 +12,9 @@ public class StoreApp {
     public static void main(String[] args) {
 
         //store init
-        Store store = new Store();
-        StoreHelper storeHelper = new StoreHelper(store);
-        Sorting sorting = new Sorting(store);
-        ConsoleApp consoleApp = new ConsoleApp(store, sorting);
+        Store store = Store.getInstance();
+        StoreHelper storeHelper = new StoreHelper();
+        ConsoleApp consoleApp = new ConsoleApp();
 
         //store populating
         storeHelper.populateStoreViaFaker();

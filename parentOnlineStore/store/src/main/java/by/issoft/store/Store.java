@@ -12,16 +12,22 @@ public class Store {
     private static final Locale defaultLocale = DEFAULT_LOCALE;
     private List<Category> categoryList;
     private Locale storeLocale;
+    private static Store instance;
 
-    public Store() {
+    private Store() {
         categoryList = new ArrayList<>();
         storeLocale = defaultLocale;
     }
 
-    public Store(Locale storeLocale) {
-        categoryList = new ArrayList<>();
-        this.storeLocale = storeLocale;
-        setStoreCurrency(storeLocale);
+    public static Store getInstance() {
+        if (instance == null) {
+            synchronized (Store.class) {
+                if (instance == null) {
+                    instance = new Store();
+                }
+            }
+        }
+        return instance;
     }
 
     public void addCategory(Category category) {

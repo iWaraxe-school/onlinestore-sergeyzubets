@@ -19,8 +19,8 @@ public class RandomStorePopulator {
     public static final int productRateMaxValue = MAX_PRODUCT_RATE_VALUE;
     Faker faker;
 
-    public RandomStorePopulator(Store store) {
-        faker = new Faker(store.getStoreLocale());
+    public RandomStorePopulator() {
+        faker = new Faker(Store.getInstance().getStoreLocale());
     }
 
     public ProductName generateProductName(String categoryName) {

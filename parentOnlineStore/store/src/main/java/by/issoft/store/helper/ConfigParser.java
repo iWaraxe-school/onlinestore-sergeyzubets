@@ -1,5 +1,7 @@
 package by.issoft.store.helper;
 
+import by.issoft.store.Store;
+import by.issoft.store.utilities.SortOptions;
 import com.google.common.base.Preconditions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -9,6 +11,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -18,10 +21,15 @@ public class ConfigParser {
 
     private static final String configFileIsNotFoundErrorMessage = CONFIG_FILE_IS_NOT_FOUND_ERROR_MESSAGE;
     private static final String configFileIsEmpty = CONFIG_FILE_WITHOUT_CONFIG;
-    private static final String configFileName = "config.xml";
+    private static final String configFileName = DEFAULT_CONFIG_FILE_NAME;
+    private static final String incorrectSortOptionErrorMessage = INCORRECT_SORT_OPTION_ERROR_MESSAGE;
+
+    public ConfigParser() {
+    }
 
     public Map<String, String> getSortingConfigFromFile() {
         Map<String, String> sortRules = new LinkedHashMap<>();
+        String sortEnumOptions = Arrays.asList(SortOptions.values()).toString();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -34,10 +42,13 @@ public class ConfigParser {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Preconditions.checkArgument(sortEnumOptions.contains(node.getTextContent().toUpperCase(Store.getInstance().getStoreLocale())),
+                            incorrectSortOptionErrorMessage + node.getTextContent().toLowerCase(Store.getInstance().getStoreLocale()));
                     sortRules.put(node.getNodeName().toLowerCase(), node.getTextContent().toUpperCase());
                 }
             }
             Preconditions.checkArgument(sortRules.size() > 0, configFileIsEmpty);
+
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new RuntimeException(e);
         }

@@ -19,24 +19,21 @@ public class ConsoleApp {
     private static final String unknownCommand = INCORRECT_INPUT;
     private static boolean isConsoleEnabled = true;
     private final Scanner scanner;
-    Store store;
-    Sorting sorting;
+    private final Sorting sorting;
 
-    public ConsoleApp(Store store, Sorting sorting) {
+    public ConsoleApp() {
         scanner = new Scanner(System.in);
-        this.store = store;
-        this.sorting = sorting;
-
+        sorting = new Sorting();
     }
 
     public void start() {
         System.out.println(greetingMessage);
         while (isConsoleEnabled) {
             System.out.println(availableCommands);
-            String consoleInput = scanner.nextLine().toLowerCase(store.getStoreLocale());
+            String consoleInput = scanner.nextLine().toLowerCase(Store.getInstance().getStoreLocale());
             switch (consoleInput) {
                 case sort: {
-                    sorting.printSortedProducts(store.getListOfAllProducts());
+                    sorting.printSortedProducts(Store.getInstance().getListOfAllProducts());
                     break;
                 }
                 case top: {
@@ -51,7 +48,6 @@ public class ConsoleApp {
                 default:
                     System.out.println(unknownCommand);
             }
-
         }
     }
 

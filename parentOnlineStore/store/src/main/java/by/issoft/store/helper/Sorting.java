@@ -16,15 +16,13 @@ public class Sorting {
     public static final int topXByPriceProducts = TOP_X_BY_PRICE_PRODUCTS;
     public static final String noProductsToSort = NO_PRODUCTS_TO_SORT;
     private final List<String> sortingCong;
-    StoreComparator comparator;
-    Store store;
+    private final StoreComparator comparator;
 
-    public Sorting(Store store) {
+    public Sorting() {
         ConfigParser configParser = new ConfigParser();
         Map<String, String> sortConf = configParser.getSortingConfigFromFile();
         comparator = new StoreComparator(sortConf);
         sortingCong = new ArrayList<>(Collections.singleton(sortConf.toString()));
-        this.store = store;
     }
 
     public void printSortedProducts(List<Product> listOfProducts) {
@@ -41,12 +39,12 @@ public class Sorting {
                 + sortedListOfProducts.stream()
                 .findFirst()
                 .get()
-                .toStringAsPerLocale(sortedListOfProducts, store.getStoreLocale());
+                .toStringAsPerLocale(sortedListOfProducts, Store.getInstance().getStoreLocale());
         System.out.println(sortResult);
     }
 
     public void printTopProducts() {
-        List<Product> sortedList = store.getListOfCategories().stream()
+        List<Product> sortedList = Store.getInstance().getListOfCategories().stream()
                 .map(Category::getListOfProducts)
                 .flatMap(Collection::stream)
                 .sorted(Comparator.comparing(Product::getPrice).reversed())
@@ -56,7 +54,7 @@ public class Sorting {
         String stringBuilder = "Top " + topXByPriceProducts + " most expensive products in the store: " + '\n' + sortedList.stream()
                 .findFirst()
                 .get()
-                .toStringAsPerLocale(sortedList, store.getStoreLocale());
+                .toStringAsPerLocale(sortedList, Store.getInstance().getStoreLocale());
         System.out.println(stringBuilder);
     }
 }
