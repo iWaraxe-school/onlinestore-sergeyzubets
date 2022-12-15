@@ -21,9 +21,16 @@ public class StoreComparator implements Comparator<Product> {
 
         for (Map.Entry<String, String> item : sortRules.entrySet()) {
             try {
-                if (sortRules.get(item.getKey()).equals(SortOptions.ASC.toString())) {
-                    compareToBuilder.append(this.getPropertyValue(product1, item.getKey()), this.getPropertyValue(product2, item.getKey())).toComparison();
-                } else {  compareToBuilder.append(this.getPropertyValue(product2, item.getKey()), this.getPropertyValue(product1, item.getKey())).toComparison();
+                if (sortRules.get(item.getKey()).equals(SortOption.ASC.toString())) {
+                    compareToBuilder.append(
+                                    this.getPropertyValue(product1, item.getKey()),
+                                    this.getPropertyValue(product2, item.getKey()))
+                            .toComparison();
+                } else {
+                    compareToBuilder.append(
+                                    this.getPropertyValue(product2, item.getKey()),
+                                    this.getPropertyValue(product1, item.getKey()))
+                            .toComparison();
                 }
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                      IllegalAccessException e) {

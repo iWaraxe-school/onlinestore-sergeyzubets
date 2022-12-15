@@ -11,7 +11,6 @@ import java.util.*;
 import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
 
 public class Product {
-    private static final String pricePrintPattern = PRICE_PRINT_PATTERN;
     private ProductName name;
     private Rate rate;
     private Price price;
@@ -23,7 +22,7 @@ public class Product {
     }
 
     public String getName() {
-        return this.name.getValue();
+        return this.name.getProductName();
     }
 
     public void setName(ProductName name) {
@@ -50,11 +49,11 @@ public class Product {
     public String toString() {
         return "Product: " + getName()
                 + " | Rate: " + this.getRate()
-                + " | Price: " + new DecimalFormat(pricePrintPattern).format(this.getPrice());
+                + " | Price: " + new DecimalFormat(PRICE_PRINT_PATTERN).format(this.getPrice());
     }
 
-    public String toStringAsPerLocale(List<Product> listOfProducts, Locale locale) {
-        return new PresentProductsAsTable().getProductsAsTableAsPerLocale(listOfProducts,locale);
+    public String toStringAsTable(List<Product> listOfProducts) {
+        return new PresentProductsAsTable().getProductsAsTable(listOfProducts);
     }
 
 }

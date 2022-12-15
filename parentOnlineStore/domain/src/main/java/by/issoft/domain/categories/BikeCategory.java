@@ -1,14 +1,26 @@
 package by.issoft.domain.categories;
 
 import by.issoft.domain.Category;
+import by.issoft.domain.utilities.CategoryType;
 
 public class BikeCategory extends Category {
 
-    public static final String name = "Bike";
+    private static final String NAME = CategoryType.BIKE.name();
+    private static BikeCategory instance;
 
-    public BikeCategory() {
-        super(BikeCategory.name);
+    private BikeCategory() {
+        super(NAME);
+    }
 
+    public static BikeCategory getInstance() {
+        if (instance == null) {
+            synchronized (BikeCategory.class) {
+                if (instance == null) {
+                    instance = new BikeCategory();
+                }
+            }
+        }
+        return instance;
     }
 
 }

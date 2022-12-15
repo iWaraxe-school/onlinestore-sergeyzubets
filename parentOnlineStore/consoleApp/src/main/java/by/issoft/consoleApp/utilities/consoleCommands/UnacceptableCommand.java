@@ -1,20 +1,17 @@
-package by.issoft.consoleApp.utilities;
+package by.issoft.consoleApp.utilities.consoleCommands;
 
 import static by.issoft.store.utilities.StoreConstants.ConsoleApp.INCORRECT_INPUT;
 
 public class UnacceptableCommand extends ConsoleCommandHandler {
 
-    private static final String unknownCommand = INCORRECT_INPUT;
-
     @Override
     public boolean isCommandHandled(String consoleInput) {
         try {
-            SupportedConsoleCommands.valueOf(consoleInput);
+            SupportedConsoleCommand.valueOf(consoleInput);
         } catch (IllegalArgumentException e) {
-            System.out.println(unknownCommand);
+            System.out.println(INCORRECT_INPUT);
             return true;
         }
         return handleNext(consoleInput);
     }
-
 }

@@ -1,8 +1,11 @@
-package by.issoft.consoleApp.utilities;
+package by.issoft.consoleApp.utilities.consoleCommands;
+
+import by.issoft.store.helper.Sorting;
 
 public abstract class ConsoleCommandHandler {
 
     private ConsoleCommandHandler next;
+    protected final Sorting sorting = new Sorting();
 
     public static ConsoleCommandHandler link(ConsoleCommandHandler first, ConsoleCommandHandler... chain) {
         ConsoleCommandHandler head = first;
@@ -21,5 +24,4 @@ public abstract class ConsoleCommandHandler {
         }
         return next.isCommandHandled(consoleInput);
     }
-
 }

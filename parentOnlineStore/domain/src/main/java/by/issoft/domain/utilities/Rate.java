@@ -8,10 +8,6 @@ import static by.issoft.store.utilities.StoreConstants.ProductConstants.RateCons
 
 public class Rate {
 
-    public static final int productRateMinValue = MIN_PRODUCT_RATE_VALUE;
-    public static final int productRateMaxValue = MAX_PRODUCT_RATE_VALUE;
-    public static final String productRateLessThanMinErrorMessage = RATE_LESS_THAN_MIN_VALUE_ERROR_MESSAGE;
-    public static final String productRateExceedsMaxErrorMessage = RATE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE;
     private final int rate;
     private static final Map<Integer, Rate> poolOfRates = new HashMap<>();
 
@@ -20,8 +16,8 @@ public class Rate {
     }
 
     public static Rate of(int rate) {
-        Preconditions.checkArgument(rate >= productRateMinValue, productRateLessThanMinErrorMessage);
-        Preconditions.checkArgument(rate <= productRateMaxValue, productRateExceedsMaxErrorMessage + rate);
+        Preconditions.checkArgument(rate >= MIN_PRODUCT_RATE_VALUE, RATE_LESS_THAN_MIN_VALUE_ERROR_MESSAGE);
+        Preconditions.checkArgument(rate <= MAX_PRODUCT_RATE_VALUE, RATE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE + rate);
 
         final Rate rateFromPool = poolOfRates.get(rate);
 

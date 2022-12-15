@@ -9,14 +9,13 @@ import java.util.stream.Collectors;
 import static by.issoft.store.utilities.StoreConstants.Store.*;
 
 public class Store {
-    private static final Locale defaultLocale = DEFAULT_LOCALE;
-    private List<Category> categoryList;
+    private Set<Category> categoryList;
     private Locale storeLocale;
     private static Store instance;
 
     private Store() {
-        categoryList = new ArrayList<>();
-        storeLocale = defaultLocale;
+        categoryList = new LinkedHashSet<>();
+        storeLocale = DEFAULT_STORE_LOCALE;
     }
 
     public static Store getInstance() {
@@ -51,18 +50,18 @@ public class Store {
         setStoreCurrency(storeLocale);
     }
 
-    public List<Category> getListOfCategories() {
+    public Set<Category> getListOfCategories() {
         return categoryList;
     }
 
-    public void setCategoryList(List<Category> categoryList) {
+    public void setCategoryList(Set<Category> categoryList) {
         this.categoryList = categoryList;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        categoryList.forEach(i -> stringBuilder.append(i.printAllCategoriesAsPerLocale(getStoreLocale())));
+        categoryList.forEach(i -> stringBuilder.append(i.toString()));
         return stringBuilder.toString();
     }
 

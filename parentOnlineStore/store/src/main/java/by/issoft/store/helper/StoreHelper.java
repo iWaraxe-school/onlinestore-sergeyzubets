@@ -13,9 +13,7 @@ import static by.issoft.store.utilities.StoreConstants.StorePopulator.*;
 
 public class StoreHelper {
 
-    private static final int lowerRandomLimit = RANDOM_MIN;
-    private static final int upperRandomLimit = RANDOM_MAX;
-    public static final String categoryPackagePath = CATEGORY_PACKAGE_PATH;
+    private static final String METHOD_NAME = "getInstance";
 
     public StoreHelper() {
     }
@@ -37,13 +35,13 @@ public class StoreHelper {
 
     private static Map<Category, Integer> populatePoolOfCategories() {
         Map<Category, Integer> mapOfCategories = new HashMap<>();
-        Reflections reflections = new Reflections(categoryPackagePath);
+        Reflections reflections = new Reflections(CATEGORY_PACKAGE_PATH);
         Set<Class<? extends Category>> subTypes = reflections.getSubTypesOf(Category.class);
         subTypes.forEach(subType -> {
             try {
-                mapOfCategories.put(subType.getConstructor().newInstance(), new Random().nextInt(upperRandomLimit - lowerRandomLimit) + lowerRandomLimit);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException e) {
+                mapOfCategories.put((Category) subType.getMethod(METHOD_NAME).invoke(subType),
+                        new Random().nextInt(RANDOM_MAX - RANDOM_MIN) + RANDOM_MIN);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         });

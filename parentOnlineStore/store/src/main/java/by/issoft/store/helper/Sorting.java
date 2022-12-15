@@ -13,8 +13,6 @@ import static by.issoft.store.utilities.StoreConstants.StoreSorting.*;
 
 public class Sorting {
 
-    public static final int topXByPriceProducts = TOP_X_BY_PRICE_PRODUCTS;
-    public static final String noProductsToSort = NO_PRODUCTS_TO_SORT;
     private final List<String> sortingCong;
     private final StoreComparator comparator;
 
@@ -33,13 +31,12 @@ public class Sorting {
         List<Product> sortedListOfProducts = listOfProducts.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
-        Preconditions.checkArgument(sortedListOfProducts.size() > 0, noProductsToSort);
-        String sortResult = "All store products are sorted with the following configuration: "
-                + sortingParam + '\n'
+        Preconditions.checkArgument(sortedListOfProducts.size() > 0, NO_PRODUCTS_TO_SORT);
+        String sortResult = SORT_RESULT_DESCRIPTION + sortingParam + '\n'
                 + sortedListOfProducts.stream()
                 .findFirst()
                 .get()
-                .toStringAsPerLocale(sortedListOfProducts, Store.getInstance().getStoreLocale());
+                .toStringAsTable(sortedListOfProducts);
         System.out.println(sortResult);
     }
 
@@ -48,13 +45,14 @@ public class Sorting {
                 .map(Category::getListOfProducts)
                 .flatMap(Collection::stream)
                 .sorted(Comparator.comparing(Product::getPrice).reversed())
-                .limit(topXByPriceProducts)
+                .limit(TOP_X_BY_PRICE_PRODUCTS)
                 .collect(Collectors.toList());
-        Preconditions.checkArgument(sortedList.size() > 0, noProductsToSort);
-        String stringBuilder = "Top " + topXByPriceProducts + " most expensive products in the store: " + '\n' + sortedList.stream()
+        Preconditions.checkArgument(sortedList.size() > 0, NO_PRODUCTS_TO_SORT);
+        String stringBuilder = "Top " + TOP_X_BY_PRICE_PRODUCTS + " most expensive products in the store: "
+                + '\n' + sortedList.stream()
                 .findFirst()
                 .get()
-                .toStringAsPerLocale(sortedList, Store.getInstance().getStoreLocale());
+                .toStringAsTable(sortedList);
         System.out.println(stringBuilder);
     }
 }

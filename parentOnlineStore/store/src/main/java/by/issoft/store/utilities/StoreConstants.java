@@ -41,7 +41,7 @@ public interface StoreConstants {
         String CONFIG_FILE_IS_NOT_FOUND_ERROR_MESSAGE = "Config File is not found in " + DEFAULT_CONFIG_FILE_PATH;
         String CONFIG_FILE_WITHOUT_CONFIG = "Config File does not contain sorting configuration.";
         String INCORRECT_SORT_OPTION_ERROR_MESSAGE = "Sorting keyword should be "
-                + SortOptions.ASC + " or " + SortOptions.DESC
+                + SortOption.ASC + " or " + SortOption.DESC
                 + ". The value gotten from the " + DEFAULT_CONFIG_FILE_NAME + " file value is ";
     }
 
@@ -52,12 +52,13 @@ public interface StoreConstants {
     }
 
     interface Store {
-        Locale DEFAULT_LOCALE = Locale.US;
+        Locale DEFAULT_STORE_LOCALE = Locale.US;
     }
 
     interface StoreSorting {
         int TOP_X_BY_PRICE_PRODUCTS = 5;
         String NO_PRODUCTS_TO_SORT = "There are no products to sort";
+        String SORT_RESULT_DESCRIPTION = "All store products are sorted with the following configuration: ";
     }
 
     interface ConsoleApp {
@@ -68,8 +69,8 @@ public interface StoreConstants {
         String SORT_DESCRIPTION = "To print products from store according to the configuration.";
         String QUIT = "quit";
         String QUIT_DESCRIPTION = "To exit app";
-        String INCORRECT_INPUT = "Unacceptable command.";
-        String GREETING_MESSAGE = '\n' + "Hello! Welcome to the Store.";
+        String INCORRECT_INPUT = "Unknown command.";
+        String WELCOME_MESSAGE = '\n' + "Hello! Welcome to the Store.";
         String GOODBYE_MESSAGE = '\n' + "Thank you for using the Store. See you next time.";
         String AVAILABLE_COMMANDS = "Please use the following commands:" + '\n'
                 + "* " + TOP + " - " + TOP_DESCRIPTION + '\n'

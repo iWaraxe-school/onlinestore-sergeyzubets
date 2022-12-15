@@ -1,13 +1,26 @@
 package by.issoft.domain.categories;
 
 import by.issoft.domain.Category;
+import by.issoft.domain.utilities.CategoryType;
 
 public class MilkCategory extends Category {
 
-    public static final String name = "Milk";
+    private static final String NAME = CategoryType.MILK.name();
+    private static MilkCategory instance;
 
-    public MilkCategory() {
-        super(MilkCategory.name);
+    private MilkCategory() {
+        super(NAME);
+    }
+
+    public static MilkCategory getInstance() {
+        if (instance == null) {
+            synchronized (MilkCategory.class) {
+                if (instance == null) {
+                    instance = new MilkCategory();
+                }
+            }
+        }
+        return instance;
     }
 
 }
