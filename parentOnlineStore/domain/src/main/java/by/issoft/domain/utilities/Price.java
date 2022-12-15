@@ -7,10 +7,6 @@ import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceCon
 
 public class Price {
 
-    public static final int productPriceMinValue = MIN_PRODUCT_PRICE_VALUE;
-    public static final int productPriceMaxValue = MAX_PRODUCT_PRICE_VALUE;
-    public static final String productPriceIsEmptyErrorMessage = PRICE_LESS_OR_EQUALS_MIN_VALUE_ERROR_MESSAGE;
-    public static final String productPriceExceedsMaxErrorMessage = PRICE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE;
     private final int price;
     private static final Map<Integer, Price> poolOfPrices = new HashMap<>();
 
@@ -19,8 +15,8 @@ public class Price {
     }
 
     public static Price of(int price) {
-        Preconditions.checkArgument(price > productPriceMinValue, productPriceIsEmptyErrorMessage);
-        Preconditions.checkArgument(price <= productPriceMaxValue, productPriceExceedsMaxErrorMessage + price);
+        Preconditions.checkArgument(price > MIN_PRODUCT_PRICE_VALUE, PRICE_LESS_OR_EQUALS_MIN_VALUE_ERROR_MESSAGE);
+        Preconditions.checkArgument(price <= MAX_PRODUCT_PRICE_VALUE, PRICE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE + price);
 
         final Price priceFromPool = poolOfPrices.get(price);
 

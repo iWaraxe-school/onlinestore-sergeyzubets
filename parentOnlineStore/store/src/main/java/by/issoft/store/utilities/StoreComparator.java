@@ -18,13 +18,19 @@ public class StoreComparator implements Comparator<Product> {
     @Override
     public int compare(Product product1, Product product2) {
         CompareToBuilder compareToBuilder = new CompareToBuilder();
+
         for (Map.Entry<String, String> item : sortRules.entrySet()) {
-            String sortOrder = sortRules.get(item.getKey());
             try {
-                if (sortOrder.equals(SortOptions.ASC.toString())) {
-                    compareToBuilder.append(this.getPropertyValue(product1, item.getKey()), this.getPropertyValue(product2, item.getKey())).toComparison();
+                if (sortRules.get(item.getKey()).equals(SortOption.ASC.toString())) {
+                    compareToBuilder.append(
+                                    this.getPropertyValue(product1, item.getKey()),
+                                    this.getPropertyValue(product2, item.getKey()))
+                            .toComparison();
                 } else {
-                    compareToBuilder.append(this.getPropertyValue(product2, item.getKey()), this.getPropertyValue(product1, item.getKey())).toComparison();
+                    compareToBuilder.append(
+                                    this.getPropertyValue(product2, item.getKey()),
+                                    this.getPropertyValue(product1, item.getKey()))
+                            .toComparison();
                 }
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                      IllegalAccessException e) {
@@ -34,9 +40,13 @@ public class StoreComparator implements Comparator<Product> {
         return compareToBuilder.toComparison();
     }
 
-    private String getPropertyValue(Product product, String property) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private Object getPropertyValue(Product product, String property) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String productClassMethodName = "get" + property.substring(0, 1).toUpperCase() + property.substring(1);
-        return String.valueOf(product.getClass().getMethod(productClassMethodName).invoke(product)).toLowerCase();
+        Object result = product.getClass().getMethod(productClassMethodName).invoke(product);
+        if ("String".equals(result.getClass().toString())) {
+            return result.toString().toLowerCase();
+        }
+        return result;
     }
 
     public Map<String, String> getSortRules() {
