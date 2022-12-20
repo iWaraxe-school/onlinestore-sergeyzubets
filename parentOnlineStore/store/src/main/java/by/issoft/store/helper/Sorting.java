@@ -48,7 +48,8 @@ public class Sorting {
                 .limit(TOP_X_BY_PRICE_PRODUCTS)
                 .collect(Collectors.toList());
         Preconditions.checkArgument(sortedList.size() > 0, NO_PRODUCTS_TO_SORT);
-        String stringBuilder = "Top " + TOP_X_BY_PRICE_PRODUCTS + " most expensive products in the store: "
+        String stringBuilder = "Top " + TOP_X_BY_PRICE_PRODUCTS + " most expensive products in the store (price in "
+                + Store.getInstance().getStoreCurrency() + "):"
                 + '\n' + sortedList.stream()
                 .findFirst()
                 .get()

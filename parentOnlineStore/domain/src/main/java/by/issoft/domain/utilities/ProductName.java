@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.issoft.store.utilities.StoreConstants.ProductConstants.NameConstants.*;
+import static by.issoft.domain.utilities.DomainConstants.ProductConstants.NameConstants.*;
 
 public class ProductName {
 

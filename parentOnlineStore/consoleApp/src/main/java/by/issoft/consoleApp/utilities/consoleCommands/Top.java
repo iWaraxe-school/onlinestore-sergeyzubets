@@ -1,10 +1,10 @@
 package by.issoft.consoleApp.utilities.consoleCommands;
 
-public class TopCommand extends ConsoleCommandHandler {
+public class Top extends ConsoleCommandHandler {
 
     @Override
     public boolean isCommandHandled(String consoleInput) {
-        if (consoleInput.equals(SupportedConsoleCommand.TOP.toString())) {
+        if (consoleInput.equals(SupportedConsoleCommands.TOP.toString())) {
             sorting.printTopProducts();
             return true;
         }

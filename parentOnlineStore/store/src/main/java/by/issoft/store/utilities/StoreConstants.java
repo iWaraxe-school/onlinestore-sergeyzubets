@@ -4,37 +4,6 @@ import java.util.Locale;
 
 public interface StoreConstants {
 
-    interface ProductConstants {
-        interface NameConstants {
-            int MIN_PRODUCT_NAME_LENGTH = 0;
-            int MAX_PRODUCT_NAME_LENGTH = 50;
-            String NAME_IS_EMPTY_ERROR_MESSAGE = "Product Name cannot be empty";
-            String NAME_LENGTH_EXCEEDS_MAX_VALUE_ERROR_MESSAGE = "The length of Product Name must be equal or less than " + MAX_PRODUCT_NAME_LENGTH + ". Current length value = ";
-        }
-
-        interface RateConstants {
-            int MIN_PRODUCT_RATE_VALUE = 0;
-            int MAX_PRODUCT_RATE_VALUE = 2;
-            String RATE_LESS_THAN_MIN_VALUE_ERROR_MESSAGE = "Rate must be more than " + MIN_PRODUCT_RATE_VALUE;
-            String RATE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE = "Rate must be equal or less than " + MAX_PRODUCT_RATE_VALUE + ". Current value ";
-        }
-
-        interface PriceConstants {
-            int MIN_PRODUCT_PRICE_VALUE = 0;
-            int MAX_PRODUCT_PRICE_VALUE = 2_000;
-            String PRICE_PRINT_PATTERN = "###,###,###,###.##";
-            String PRICE_LESS_OR_EQUALS_MIN_VALUE_ERROR_MESSAGE = "Price must be more than " + MIN_PRODUCT_PRICE_VALUE;
-            String PRICE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE = "Price must be equal or less than " + MAX_PRODUCT_PRICE_VALUE + ". Current value ";
-        }
-    }
-
-    interface CategoryConstants {
-        int MIN_CATEGORY_NAME_LENGTH = 0;
-        int MAX_CATEGORY_NAME_LENGTH = 100;
-        String NAME_IS_EMPTY_ERROR_MESSAGE = "Category Name cannot be empty";
-        String NAME_LENGTH_EXCEEDS_MAX_VALUE_ERROR_MESSAGE = "The length of Product Name must be equal or less than " + MAX_CATEGORY_NAME_LENGTH + ". Current length value = ";
-    }
-
     interface StoreConfigFile {
         String DEFAULT_CONFIG_FILE_NAME = "config.xml";
         String DEFAULT_CONFIG_FILE_PATH = "/parentOnlineStore/store/src/main/resources/";
@@ -53,6 +22,7 @@ public interface StoreConstants {
 
     interface Store {
         Locale DEFAULT_STORE_LOCALE = Locale.US;
+        String CART_WAS_CLEANED_UP = "The cart with Purchased Gods was cleaned up.";
     }
 
     interface StoreSorting {
@@ -61,21 +31,29 @@ public interface StoreConstants {
         String SORT_RESULT_DESCRIPTION = "All store products are sorted with the following configuration: ";
     }
 
-    interface ConsoleApp {
-        int EXIT_STATUS = 0;
+    interface ConsoleApp extends Store {
+        String CATALOG = "catalog";
+        String CATALOG_DESCRIPTION = "To print all products from the store.";
         String TOP = "top";
-        String TOP_DESCRIPTION = "To print top " + StoreSorting.TOP_X_BY_PRICE_PRODUCTS + " products of whole store sorted via price DESC.";
+        String TOP_DESCRIPTION = "To print top " + StoreSorting.TOP_X_BY_PRICE_PRODUCTS + " products of whole store sorted via price by DESC.";
         String SORT = "sort";
-        String SORT_DESCRIPTION = "To print products from store according to the configuration.";
+        String SORT_DESCRIPTION = "To print products from store according to the sorting configuration.";
         String QUIT = "quit";
         String QUIT_DESCRIPTION = "To exit app";
         String INCORRECT_INPUT = "Unknown command.";
-        String WELCOME_MESSAGE = '\n' + "Hello! Welcome to the Store.";
         String GOODBYE_MESSAGE = '\n' + "Thank you for using the Store. See you next time.";
+        String ORDER = "order";
+        String ORDER_DESCRIPTION = "To create a new order.";
         String AVAILABLE_COMMANDS = "Please use the following commands:" + '\n'
-                + "* " + TOP + " - " + TOP_DESCRIPTION + '\n'
+                + "* " + CATALOG + " - " + CATALOG_DESCRIPTION + '\n'
+                + "* " + ORDER + " - " + ORDER_DESCRIPTION + '\n'
                 + "* " + SORT + " - " + SORT_DESCRIPTION + '\n'
+                + "* " + TOP + " - " + TOP_DESCRIPTION + '\n'
                 + "* " + QUIT + " - " + QUIT_DESCRIPTION;
+        String BACK_TO_THE_MAIN_MENU = "Please use 'back' command to return to main menu or press Enter button.";
+        int MIN_ORDER_LIFE_TIME = 1;
+        int MAX_ORDER_LIFE_TIME = 30;
+        int CLEAN_UP_CART_INTERVAL = 2;
     }
 
 }

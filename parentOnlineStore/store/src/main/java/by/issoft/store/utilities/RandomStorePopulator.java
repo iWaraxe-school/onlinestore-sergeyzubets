@@ -6,9 +6,9 @@ import by.issoft.domain.utilities.Rate;
 import by.issoft.store.Store;
 import com.github.javafaker.Faker;
 
-import static by.issoft.store.utilities.StoreConstants.ProductConstants.NameConstants.*;
-import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
-import static by.issoft.store.utilities.StoreConstants.ProductConstants.RateConstants.*;
+import static by.issoft.domain.utilities.DomainConstants.ProductConstants.NameConstants.*;
+import static by.issoft.domain.utilities.DomainConstants.ProductConstants.PriceConstants.*;
+import static by.issoft.domain.utilities.DomainConstants.ProductConstants.RateConstants.*;
 
 public class RandomStorePopulator {
 

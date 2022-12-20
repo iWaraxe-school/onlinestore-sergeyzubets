@@ -5,10 +5,11 @@ import by.issoft.domain.utilities.Price;
 import by.issoft.domain.utilities.ProductName;
 import by.issoft.domain.utilities.Rate;
 
+import static by.issoft.domain.utilities.DomainConstants.ProductConstants.PriceConstants.*;
+
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
 
 public class Product {
     private ProductName name;
