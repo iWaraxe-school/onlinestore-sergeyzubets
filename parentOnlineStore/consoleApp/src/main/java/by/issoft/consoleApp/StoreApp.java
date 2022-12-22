@@ -19,12 +19,8 @@ public class StoreApp {
         //store populating
         storeHelper.populateStoreViaFaker();
 
-        //print full store
-        System.out.println(store);
-
         //console
         consoleApp.start();
-
 
     }
 

@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 
 import java.util.*;
 
-import static by.issoft.store.utilities.StoreConstants.CategoryConstants.*;
+import static by.issoft.domain.utilities.DomainConstants.CategoryConstants.*;
 
 public class Category {
 

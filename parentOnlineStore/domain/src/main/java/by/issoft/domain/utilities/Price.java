@@ -3,7 +3,7 @@ package by.issoft.domain.utilities;
 import com.google.common.base.Preconditions;
 import java.util.*;
 
-import static by.issoft.store.utilities.StoreConstants.ProductConstants.PriceConstants.*;
+import static by.issoft.domain.utilities.DomainConstants.ProductConstants.PriceConstants.*;
 
 public class Price {
 

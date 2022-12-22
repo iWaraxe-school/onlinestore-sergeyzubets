@@ -7,7 +7,7 @@ public class UnacceptableCommand extends ConsoleCommandHandler {
     @Override
     public boolean isCommandHandled(String consoleInput) {
         try {
-            SupportedConsoleCommand.valueOf(consoleInput);
+            SupportedConsoleCommands.valueOf(consoleInput);
         } catch (IllegalArgumentException e) {
             System.out.println(INCORRECT_INPUT);
             return true;

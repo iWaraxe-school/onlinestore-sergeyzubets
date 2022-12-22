@@ -1,7 +1,6 @@
 package by.issoft.domain.utilities;
 
 import by.issoft.domain.Product;
-import by.issoft.store.Store;
 
 import java.util.*;
 
@@ -12,7 +11,7 @@ public class PresentProductsAsTable {
 
     public String getProductsAsTable(List<Product> listOfProducts) {
         List<List<String>> rows = new ArrayList<>();
-        rows.add(Arrays.asList("Product Name", "Rate", "Price,  " + Store.getInstance().getStoreCurrency()));
+        rows.add(Arrays.asList("Product Name", "Rate", "Price"));
         formulateList(rows, listOfProducts);
 
         int[] maxLengths = new int[rows.get(0).size()];
@@ -22,6 +21,7 @@ public class PresentProductsAsTable {
             }
         }
         StringBuilder formatBuilder = new StringBuilder();
+
         for (int maxLength : maxLengths) {
             formatBuilder.append("%-").append(maxLength + 2).append("s");
         }

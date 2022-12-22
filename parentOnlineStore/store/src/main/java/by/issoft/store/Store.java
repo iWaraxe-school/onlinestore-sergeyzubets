@@ -2,16 +2,20 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-import static by.issoft.store.utilities.StoreConstants.Store.*;
+import static by.issoft.store.utilities.StoreConstants.ConsoleApp.*;
 
+@Slf4j
 public class Store {
     private Set<Category> categoryList;
     private Locale storeLocale;
     private static Store instance;
+    private final List<Product> purchasedGods = new CopyOnWriteArrayList<>();
 
     private Store() {
         categoryList = new LinkedHashSet<>();
@@ -70,6 +74,23 @@ public class Store {
                 .map(Category::getListOfProducts)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+    }
+
+    public Product getRandomProductFromStore() {
+        return getListOfAllProducts().get(new Random().nextInt(getListOfAllProducts().size()));
+    }
+
+    public void addPurchasedGods(Product product) {
+        purchasedGods.add(product);
+    }
+
+    public List<Product> getAllPurchasedGods() {
+        return purchasedGods;
+    }
+
+    public void clearPurchasedGodsCollection() {
+        log.info(CART_WAS_CLEANED_UP + '\n' + BACK_TO_THE_MAIN_MENU);
+        purchasedGods.clear();
     }
 
 }
