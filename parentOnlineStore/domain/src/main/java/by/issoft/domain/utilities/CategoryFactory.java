@@ -25,7 +25,7 @@ public class CategoryFactory {
     }
 
     public Category getCategoryByCategoryName(String categoryName) {
-        Preconditions.checkArgument(getCategoryNameFromEnum(categoryName) != null, CATEGORY_DOES_NOT_SPECIFIED_ERROR_MESSAGE);
+        Preconditions.checkArgument(getCategoryNameFromEnum(categoryName) != null, CATEGORY_IS_NOT_SPECIFIED_ERROR_MESSAGE);
         return getCategoryMap().get(getCategoryNameFromEnum(categoryName)).get();
     }
 

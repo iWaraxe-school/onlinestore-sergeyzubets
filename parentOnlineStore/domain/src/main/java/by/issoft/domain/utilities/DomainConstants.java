@@ -31,7 +31,7 @@ public interface DomainConstants {
         int MAX_CATEGORY_NAME_LENGTH = 100;
         String NAME_IS_EMPTY_ERROR_MESSAGE = "Category Name cannot be empty";
         String NAME_LENGTH_EXCEEDS_MAX_VALUE_ERROR_MESSAGE = "The length of Product Name must be equal or less than " + MAX_CATEGORY_NAME_LENGTH + ". Current length value = ";
-        String CATEGORY_DOES_NOT_SPECIFIED_ERROR_MESSAGE = "CategoryType Enum and CategoryFactory do not contain the Category";
+        String CATEGORY_IS_NOT_SPECIFIED_ERROR_MESSAGE = "CategoryType Enum and CategoryFactory do not contain the Category";
     }
 
 }
