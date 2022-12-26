@@ -19,14 +19,10 @@ public class StoreHelper {
     }
 
     public void populateStoreViaFaker() {
-        RandomStorePopulator storePopulator = new RandomStorePopulator();
         Map<Category, Integer> poolOfCategories = populatePoolOfCategories();
         for (Map.Entry<Category, Integer> entry : poolOfCategories.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
-                Product product = new Product(
-                        storePopulator.generateProductName(entry.getKey().getCategoryName()),
-                        storePopulator.generateProductRate(),
-                        storePopulator.generateProductPrice());
+                Product product = generateNewProduct(entry.getKey().getCategoryName());
                 entry.getKey().addProduct(product);
             }
             Store.getInstance().addCategory(entry.getKey());
@@ -39,12 +35,26 @@ public class StoreHelper {
         Set<Class<? extends Category>> subTypes = reflections.getSubTypesOf(Category.class);
         subTypes.forEach(subType -> {
             try {
-                mapOfCategories.put((Category) subType.getMethod(METHOD_NAME).invoke(subType),
-                        new Random().nextInt(RANDOM_MAX - RANDOM_MIN) + RANDOM_MIN);
+                mapOfCategories.put((Category) subType.getMethod(METHOD_NAME).invoke(subType), getRandomProductsCount());
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         });
         return mapOfCategories;
     }
+
+    public Product generateNewProduct(String categoryName) {
+        RandomStorePopulator storePopulator = new RandomStorePopulator();
+        return new Product(
+                storePopulator.generateProductName(categoryName),
+                storePopulator.generateProductRate(),
+                storePopulator.generateProductPrice()
+        );
+    }
+
+    public static int getRandomProductsCount() {
+        return new Random().nextInt(RANDOM_MAX - RANDOM_MIN) + RANDOM_MIN;
+    }
+
+
 }

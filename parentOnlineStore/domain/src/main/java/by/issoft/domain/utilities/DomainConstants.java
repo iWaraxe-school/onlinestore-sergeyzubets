@@ -12,7 +12,7 @@ public interface DomainConstants {
 
         interface RateConstants {
             int MIN_PRODUCT_RATE_VALUE = 0;
-            int MAX_PRODUCT_RATE_VALUE = 2;
+            int MAX_PRODUCT_RATE_VALUE = 100;
             String RATE_LESS_THAN_MIN_VALUE_ERROR_MESSAGE = "Rate must be more than " + MIN_PRODUCT_RATE_VALUE;
             String RATE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE = "Rate must be equal or less than " + MAX_PRODUCT_RATE_VALUE + ". Current value ";
         }
@@ -31,6 +31,7 @@ public interface DomainConstants {
         int MAX_CATEGORY_NAME_LENGTH = 100;
         String NAME_IS_EMPTY_ERROR_MESSAGE = "Category Name cannot be empty";
         String NAME_LENGTH_EXCEEDS_MAX_VALUE_ERROR_MESSAGE = "The length of Product Name must be equal or less than " + MAX_CATEGORY_NAME_LENGTH + ". Current length value = ";
+        String CATEGORY_DOES_NOT_SPECIFIED_ERROR_MESSAGE = "CategoryType Enum and CategoryFactory do not contain the Category";
     }
 
 }

@@ -2,10 +2,13 @@ package by.issoft.domain.utilities;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.categories.*;
+import com.google.common.base.Preconditions;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+
+import static by.issoft.domain.utilities.DomainConstants.CategoryConstants.*;
 
 public class CategoryFactory {
 
@@ -17,8 +20,22 @@ public class CategoryFactory {
         return categoryTypeMap;
     }
 
-    public Category getCategory(CategoryType type) {
+    public Category getCategoryByType(CategoryType type) {
         return getCategoryMap().get(type).get();
+    }
+
+    public Category getCategoryByCategoryName(String categoryName) {
+        Preconditions.checkArgument(getCategoryNameFromEnum(categoryName) != null, CATEGORY_DOES_NOT_SPECIFIED_ERROR_MESSAGE);
+        return getCategoryMap().get(getCategoryNameFromEnum(categoryName)).get();
+    }
+
+    private static CategoryType getCategoryNameFromEnum(String categoryName) {
+        for (CategoryType categoryType : CategoryType.values()) {
+            if (categoryType.name().equals(categoryName.toUpperCase())) {
+                return categoryType;
+            }
+        }
+        return null;
     }
 
 }

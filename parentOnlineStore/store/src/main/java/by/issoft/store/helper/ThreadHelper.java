@@ -33,7 +33,7 @@ public class ThreadHelper extends Thread {
     }
 
     public void cleanUpCart() {
-        Runnable cleanUpCartThread = () -> Store.getInstance().clearPurchasedGodsCollection();
+        Runnable cleanUpCartThread = Store.getInstance()::clearPurchasedGodsCollection;
         periodExecutor.scheduleAtFixedRate(cleanUpCartThread, 0, CLEAN_UP_CART_INTERVAL, TimeUnit.MINUTES);
     }
 
