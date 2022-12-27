@@ -11,7 +11,6 @@ import static by.issoft.domain.utilities.DomainConstants.ProductConstants.PriceC
 import static by.issoft.domain.utilities.DomainConstants.ProductConstants.RateConstants.*;
 
 public class RandomStorePopulator {
-
     Faker faker;
 
     public RandomStorePopulator() {
@@ -23,13 +22,11 @@ public class RandomStorePopulator {
         switch (categoryName) {
             case "BIKE":
                 generatedProductName = ProductName.of(faker.name().fullName());
-                //generatedProductName = ProductName.of(faker.animal().name());
                 break;
             case "MILK":
                 generatedProductName = ProductName.of(faker.animal().name());
                 break;
             case "PHONE":
-                //generatedProductName = ProductName.of(faker.animal().name());
                 generatedProductName = ProductName.of(faker.commerce().productName());
                 break;
             default:
