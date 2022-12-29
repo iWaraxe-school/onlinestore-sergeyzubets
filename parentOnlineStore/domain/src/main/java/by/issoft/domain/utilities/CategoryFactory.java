@@ -2,7 +2,7 @@ package by.issoft.domain.utilities;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.categories.*;
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class CategoryFactory {
     }
 
     public Category getCategoryByCategoryName(String categoryName) {
-        Preconditions.checkArgument(getCategoryNameFromEnum(categoryName) != null, CATEGORY_IS_NOT_SPECIFIED_ERROR_MESSAGE);
+        checkArgument(getCategoryNameFromEnum(categoryName) != null, CATEGORY_IS_NOT_SPECIFIED_ERROR_MESSAGE);
         return getCategoryMap().get(getCategoryNameFromEnum(categoryName)).get();
     }
 
@@ -37,5 +37,4 @@ public class CategoryFactory {
         }
         return null;
     }
-
 }

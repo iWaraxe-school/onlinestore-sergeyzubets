@@ -3,18 +3,13 @@ package by.issoft.store.helper;
 import by.issoft.store.Store;
 import by.issoft.store.utilities.SortOption;
 import com.google.common.base.Preconditions;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static by.issoft.store.utilities.StoreConstants.StoreConfigFile.*;
 
@@ -49,8 +44,5 @@ public class ConfigParser {
             throw new RuntimeException(e);
         }
         return sortRules;
-
-
     }
-
 }

@@ -1,7 +1,6 @@
 package by.issoft.store.helper;
 
-import by.issoft.domain.Category;
-import by.issoft.domain.Product;
+import by.issoft.domain.*;
 import by.issoft.store.Store;
 import by.issoft.store.utilities.RandomStorePopulator;
 import org.reflections.Reflections;
@@ -12,7 +11,6 @@ import java.util.*;
 import static by.issoft.store.utilities.StoreConstants.StorePopulator.*;
 
 public class StoreHelper {
-
     private static final String METHOD_NAME = "getInstance";
 
     public StoreHelper() {
@@ -48,13 +46,10 @@ public class StoreHelper {
         return new Product(
                 storePopulator.generateProductName(categoryName),
                 storePopulator.generateProductRate(),
-                storePopulator.generateProductPrice()
-        );
+                storePopulator.generateProductPrice());
     }
 
     public static int getRandomProductsCount() {
         return new Random().nextInt(RANDOM_MAX - RANDOM_MIN) + RANDOM_MIN;
     }
-
-
 }

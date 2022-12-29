@@ -56,5 +56,4 @@ public class Product {
     public String toStringAsTable(List<Product> listOfProducts) {
         return new PresentProductsAsTable().getProductsAsTable(listOfProducts);
     }
-
 }

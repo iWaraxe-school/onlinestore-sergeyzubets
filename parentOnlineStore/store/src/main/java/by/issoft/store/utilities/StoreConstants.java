@@ -34,6 +34,15 @@ public interface StoreConstants {
         String SORT_RESULT_DESCRIPTION = "All store products are sorted with the following configuration: ";
     }
 
+    interface Threads {
+        int ORDER_THREADS_POOL_SIZE = 5;
+        int MIN_ORDER_LIFE_TIME = 1;
+        int MAX_ORDER_LIFE_TIME = 30;
+        int CLEAN_UP_CART_INTERVAL = 2;
+        String START_PROCESSING_ORDER = "Start processing order ";
+        String FINISH_PROCESSING_ORDER = "Finish processing order. Purchased ";
+    }
+
     interface ConsoleApp extends Store {
         String CART = "cart";
         String CART_DESCRIPTION = "To print all Purchased Gods.";
@@ -49,39 +58,117 @@ public interface StoreConstants {
         String GOODBYE_MESSAGE = '\n' + "Thank you for using the Store. See you next time.";
         String ORDER = "order";
         String ORDER_DESCRIPTION = "To create a new order.";
+        String RECREATE = "recreate";
+        String RECREATE_DESCRIPTION = "To drop current Database, create a new one, and refill it.";
         String AVAILABLE_COMMANDS = "Please use the following commands:" + '\n'
                 + "* " + CART + " - " + CART_DESCRIPTION + '\n'
                 + "* " + CATALOG + " - " + CATALOG_DESCRIPTION + '\n'
                 + "* " + ORDER + " - " + ORDER_DESCRIPTION + '\n'
+                + "* " + RECREATE + " - " + RECREATE_DESCRIPTION + '\n'
                 + "* " + SORT + " - " + SORT_DESCRIPTION + '\n'
                 + "* " + TOP + " - " + TOP_DESCRIPTION + '\n'
                 + "* " + QUIT + " - " + QUIT_DESCRIPTION;
-        String BACK_TO_THE_MAIN_MENU = "Please use 'back' command to return to main menu or press Enter button.";
-        int MIN_ORDER_LIFE_TIME = 1;
-        int MAX_ORDER_LIFE_TIME = 30;
-        int CLEAN_UP_CART_INTERVAL = 2;
     }
 
     interface Database {
         String JDBC_URL = "jdbc:h2:~/szDB";
         String DB_USER = "ideaUser";
         String DB_PASS = "qwerty";
-        String DROP_TABLE_OF_PRODUCTS_IF_EXISTS = "DROP TABLE IF EXISTS PRODUCTS";
-        String DROP_TABLE_OF_CATEGORIES_IF_EXISTS = "DROP TABLE IF EXISTS CATEGORIES";
-        String CREATE_TABLE_OF_CATEGORIES = "CREATE TABLE IF NOT EXISTS CATEGORIES("
-                + "CAT_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, "
-                + "CATEGORY_NAME VARCHAR(" + MAX_CATEGORY_NAME_LENGTH + ") UNIQUE NOT NULL)";
-        String CREATE_TABLE_OF_PRODUCTS = "CREATE TABLE IF NOT EXISTS PRODUCTS("
-                + "PROD_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, "
-                + "NAME VARCHAR(" + MAX_PRODUCT_NAME_LENGTH + "), "
-                + "RATE INTEGER, "
-                + "PRICE INTEGER, "
-                + "CATEGORY_NAME VARCHAR(" + MAX_CATEGORY_NAME_LENGTH + ") NOT NULL, "
-                + "FOREIGN KEY (CATEGORY_NAME) REFERENCES CATEGORIES (CATEGORY_NAME))";
-        String GET_ALL_CATEGORIES_FROM_DB = "SELECT * FROM CATEGORIES";
-        String INSERT_NEW_CATEGORY = "INSERT INTO CATEGORIES (category_Name) VALUES(?)";
-        String GET_ALL_PRODUCTS_FROM_DB = "SELECT * FROM PRODUCTS";
-        String INSERT_NEW_PRODUCT = "INSERT INTO PRODUCTS (name, rate, price, CATEGORY_NAME) VALUES(?,?,?,?)";
+
+        interface DatabaseCategoriesTable {
+            String CATEGORY_TABLE_NAME = "CATEGORIES";
+            String CATEGORY_TABLE_PRIMARY_KEY = "CAT_ID";
+            String CATEGORY_TABLE_CATEGORY_NAME_COLUMN_NAME = "CATEGORY_NAME";
+        }
+
+        interface DatabaseProductsTable {
+            String PRODUCTS_TABLE_NAME = "PRODUCTS";
+            String PRODUCTS_TABLE_PRIMARY_KEY = "PROD_ID";
+            String PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME = "NAME";
+            String PRODUCTS_TABLE_PRODUCT_RATE_COLUMN_NAME = "RATE";
+            String PRODUCTS_TABLE_PRODUCT_PRICE_COLUMN_NAME = "PRICE";
+            String PRODUCTS_TABLE_FOREIGN_KEY_KEY = "CAT_ID";
+        }
+
+        interface DatabasePurchasedProductsTable {
+            String PURCHASED_PRODUCTS_TABLE_NAME = "PURCHASED_PRODUCTS";
+            String PURCHASED_PRODUCTS_TABLE_PRIMARY_KEY = "PROD_ID";
+            String PURCHASED_PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME = "NAME";
+            String PURCHASED_PRODUCTS_PRODUCT_RATE_COLUMN_NAME = "RATE";
+            String PURCHASED_PRODUCTS_PRODUCT_PRICE_COLUMN_NAME = "PRICE";
+            String PURCHASED_PRODUCTS_TABLE_FOREIGN_KEY_KEY = "CAT_ID";
+        }
+
+        interface Requests extends DatabaseCategoriesTable, DatabaseProductsTable, DatabasePurchasedProductsTable {
+            String DROP_TABLE_OF_PRODUCTS_IF_EXISTS = "DROP TABLE IF EXISTS " + PRODUCTS_TABLE_NAME;
+            String DROP_TABLE_OF_PURCHASED_PRODUCTS_IF_EXISTS = "DROP TABLE IF EXISTS " + PURCHASED_PRODUCTS_TABLE_NAME;
+            String DROP_TABLE_OF_CATEGORIES_IF_EXISTS = "DROP TABLE IF EXISTS " + CATEGORY_TABLE_NAME;
+            String CREATE_TABLE_OF_CATEGORIES = "CREATE TABLE IF NOT EXISTS " + CATEGORY_TABLE_NAME + " ("
+                    + CATEGORY_TABLE_PRIMARY_KEY + " INT NOT NULL PRIMARY KEY AUTO_INCREMENT, "
+                    + CATEGORY_TABLE_CATEGORY_NAME_COLUMN_NAME + " VARCHAR(" + MAX_CATEGORY_NAME_LENGTH + ") UNIQUE NOT NULL)";
+            String CREATE_TABLE_OF_PRODUCTS = "CREATE TABLE IF NOT EXISTS " + PRODUCTS_TABLE_NAME + " ("
+                    + PRODUCTS_TABLE_PRIMARY_KEY + " INT NOT NULL PRIMARY KEY AUTO_INCREMENT, "
+                    + PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME + " VARCHAR (" + MAX_PRODUCT_NAME_LENGTH + "), "
+                    + PRODUCTS_TABLE_PRODUCT_RATE_COLUMN_NAME + " INTEGER, "
+                    + PRODUCTS_TABLE_PRODUCT_PRICE_COLUMN_NAME + " INTEGER, "
+                    + PRODUCTS_TABLE_FOREIGN_KEY_KEY + " INT NOT NULL, "
+                    + "FOREIGN KEY (" + PRODUCTS_TABLE_FOREIGN_KEY_KEY + ") "
+                    + "REFERENCES " + CATEGORY_TABLE_NAME + " (" + CATEGORY_TABLE_PRIMARY_KEY + "))";
+            String CREATE_TABLE_OF_PURCHASED_PRODUCTS = "CREATE TABLE IF NOT EXISTS " + PURCHASED_PRODUCTS_TABLE_NAME + " ("
+                    + PURCHASED_PRODUCTS_TABLE_PRIMARY_KEY + " INT NOT NULL PRIMARY KEY AUTO_INCREMENT, "
+                    + PURCHASED_PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME + " VARCHAR(" + MAX_PRODUCT_NAME_LENGTH + "), "
+                    + PURCHASED_PRODUCTS_PRODUCT_RATE_COLUMN_NAME + " INTEGER, "
+                    + PURCHASED_PRODUCTS_PRODUCT_PRICE_COLUMN_NAME + " INTEGER, "
+                    + PURCHASED_PRODUCTS_TABLE_FOREIGN_KEY_KEY + " INT NOT NULL, "
+                    + "FOREIGN KEY (" + CATEGORY_TABLE_PRIMARY_KEY + ") "
+                    + "REFERENCES CATEGORIES (" + CATEGORY_TABLE_PRIMARY_KEY + "))";
+            String GET_ALL_CATEGORIES_FROM_DB = "SELECT * FROM " + CATEGORY_TABLE_NAME;
+            String GET_CATEGORY_ID_BY_NAME = "SELECT " + CATEGORY_TABLE_PRIMARY_KEY
+                    + " FROM " + CATEGORY_TABLE_NAME
+                    + " WHERE " + CATEGORY_TABLE_CATEGORY_NAME_COLUMN_NAME + " = ";
+            String GET_PRODUCT_ID_BY_NAME = "SELECT " + PRODUCTS_TABLE_FOREIGN_KEY_KEY
+                    + " FROM " + PRODUCTS_TABLE_NAME
+                    + " WHERE " + PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME + " = ";
+            String INSERT_NEW_CATEGORY = "INSERT INTO " + CATEGORY_TABLE_NAME + " (" + CATEGORY_TABLE_CATEGORY_NAME_COLUMN_NAME + ") VALUES(?)";
+            String GET_ALL_PRODUCTS_FROM_DB = "SELECT * FROM " + PRODUCTS_TABLE_NAME;
+            String GET_ALL_PRODUCTS_PER_CATEGORY_FROM_DB = "SELECT * FROM " + PRODUCTS_TABLE_NAME
+                    + " WHERE " + PRODUCTS_TABLE_FOREIGN_KEY_KEY + " = ";
+            String GET_PRODUCT_BY_NAME_FROM_DB = "SELECT * FROM " + PRODUCTS_TABLE_NAME
+                    + " WHERE " + PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME + " = ";
+            String INSERT_NEW_PRODUCT = "INSERT INTO " + PRODUCTS_TABLE_NAME
+                    + " (" + PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME + ","
+                    + PRODUCTS_TABLE_PRODUCT_RATE_COLUMN_NAME + ","
+                    + PRODUCTS_TABLE_PRODUCT_PRICE_COLUMN_NAME + ","
+                    + PRODUCTS_TABLE_FOREIGN_KEY_KEY + ") VALUES(?, ?, ?, ?)";
+            String GET_ALL_PURCHASED_PRODUCT = "SELECT * FROM " + PURCHASED_PRODUCTS_TABLE_NAME;
+
+            String INSERT_PURCHASED_PRODUCT = "INSERT INTO " + PURCHASED_PRODUCTS_TABLE_NAME + " ("
+                    + PURCHASED_PRODUCTS_TABLE_PRODUCT_NAME_COLUMN_NAME + ","
+                    + PURCHASED_PRODUCTS_PRODUCT_RATE_COLUMN_NAME + ","
+                    + PURCHASED_PRODUCTS_PRODUCT_PRICE_COLUMN_NAME + ","
+                    + PURCHASED_PRODUCTS_TABLE_FOREIGN_KEY_KEY + ") VALUES(?, ?, ?, ?)";
+            String DELETE_PURCHASED_PRODUCTS = "DELETE FROM " + PURCHASED_PRODUCTS_TABLE_NAME;
+            String RELOAD_DB = "The Database was reinitialized successfully.";
+            String LOAD_DB = "The Database was loaded successfully.";
+        }
     }
 
+    interface Http {
+        String HOST = "http://localhost";
+        int PORT = 8080;
+        String MAIN_PAGE_URL = "/";
+        String CATEGORIES_PAGE_URL = "/categories";
+        String PRODUCTS_PAGE_URL = "/products";
+        String CATALOG_PAGE_URL = "/catalog";
+        String TOP_GODS_PAGE_URL = "/top";
+        String SORTED_GODS_PAGE_URL = "/sorted";
+        String CART_PAGE_URL = "/cart";
+        String NEW_ORDER_PAGE_URL = "/new_order";
+        String START_SERVER_MESSAGE = "The server is running on port " + PORT;
+        String STOP_SERVER_MESSAGE = "Server is stopped";
+        int HTTP_SUCCESS_STATUS_RESPONSE_CODE = 200;
+        String USERNAME = "admin";
+        String PASSWORD = "admin";
+        String EMPTY_STORE = "The store is empty. No products to purchase";
+    }
 }

@@ -2,7 +2,7 @@ package by.issoft.consoleApp.utilities.consoleCommands;
 
 import by.issoft.store.Store;
 
-public class PrintAllGods extends ConsoleCommandHandler {
+public class Catalog extends ConsoleCommandHandler {
 
     @Override
     public boolean isCommandHandled(String consoleInput) {

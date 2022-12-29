@@ -3,7 +3,6 @@ package by.issoft.consoleApp.utilities.consoleCommands;
 import by.issoft.store.helper.Sorting;
 
 public abstract class ConsoleCommandHandler {
-
     private ConsoleCommandHandler next;
     protected final Sorting sorting = new Sorting();
 

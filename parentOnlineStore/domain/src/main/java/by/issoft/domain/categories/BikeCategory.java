@@ -22,5 +22,4 @@ public class BikeCategory extends Category {
         }
         return instance;
     }
-
 }

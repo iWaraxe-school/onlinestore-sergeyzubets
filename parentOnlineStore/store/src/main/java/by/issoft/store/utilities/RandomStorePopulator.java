@@ -1,8 +1,6 @@
 package by.issoft.store.utilities;
 
-import by.issoft.domain.utilities.Price;
-import by.issoft.domain.utilities.ProductName;
-import by.issoft.domain.utilities.Rate;
+import by.issoft.domain.utilities.*;
 import by.issoft.store.Store;
 import com.github.javafaker.Faker;
 
@@ -46,5 +44,4 @@ public class RandomStorePopulator {
         }
         return Price.of(generatedPrice);
     }
-
 }

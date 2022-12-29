@@ -5,7 +5,7 @@ public class Top extends ConsoleCommandHandler {
     @Override
     public boolean isCommandHandled(String consoleInput) {
         if (consoleInput.equals(SupportedConsoleCommands.TOP.toString())) {
-            sorting.printTopProducts();
+            System.out.println(sorting.getTopProducts());
             return true;
         }
         return handleNext(consoleInput);
