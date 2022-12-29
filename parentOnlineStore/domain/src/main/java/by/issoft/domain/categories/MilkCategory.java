@@ -22,5 +22,4 @@ public class MilkCategory extends Category {
         }
         return instance;
     }
-
 }

@@ -18,7 +18,6 @@ public class StoreComparator implements Comparator<Product> {
     @Override
     public int compare(Product product1, Product product2) {
         CompareToBuilder compareToBuilder = new CompareToBuilder();
-
         for (Map.Entry<String, String> item : sortRules.entrySet()) {
             try {
                 if (sortRules.get(item.getKey()).equals(SortOption.ASC.toString())) {
@@ -56,6 +55,4 @@ public class StoreComparator implements Comparator<Product> {
     public void setSortRules(Map<String, String> sortRules) {
         this.sortRules = sortRules;
     }
-
-
 }

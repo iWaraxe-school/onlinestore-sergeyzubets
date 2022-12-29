@@ -1,7 +1,7 @@
 package by.issoft.domain.utilities;
 
-import com.google.common.base.Preconditions;
 import java.util.*;
+import static com.google.common.base.Preconditions.*;
 
 import static by.issoft.domain.utilities.DomainConstants.ProductConstants.PriceConstants.*;
 
@@ -15,11 +15,9 @@ public class Price {
     }
 
     public static Price of(int price) {
-        Preconditions.checkArgument(price > MIN_PRODUCT_PRICE_VALUE, PRICE_LESS_OR_EQUALS_MIN_VALUE_ERROR_MESSAGE);
-        Preconditions.checkArgument(price <= MAX_PRODUCT_PRICE_VALUE, PRICE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE + price);
-
+        checkArgument(price > MIN_PRODUCT_PRICE_VALUE, PRICE_LESS_OR_EQUALS_MIN_VALUE_ERROR_MESSAGE);
+        checkArgument(price <= MAX_PRODUCT_PRICE_VALUE, PRICE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE + price);
         final Price priceFromPool = poolOfPrices.get(price);
-
         if (priceFromPool != null) {
             return priceFromPool;
         }

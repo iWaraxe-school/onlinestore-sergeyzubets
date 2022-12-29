@@ -40,5 +40,4 @@ public class PresentProductsAsTable {
                 Integer.toString(product.getPrice()))));
         return rows;
     }
-
 }

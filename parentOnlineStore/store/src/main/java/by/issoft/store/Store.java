@@ -1,7 +1,8 @@
 package by.issoft.store;
 
-import by.issoft.domain.Category;
-import by.issoft.domain.Product;
+import by.issoft.domain.*;
+import by.issoft.domain.utilities.PresentProductsAsTable;
+import by.issoft.store.helper.DatabaseHelper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -15,7 +16,11 @@ public class Store {
     private Set<Category> categoryList;
     private Locale storeLocale;
     private static Store instance;
-    private final List<Product> purchasedGods = new CopyOnWriteArrayList<>();
+    private List<Product> purchasedGods = new CopyOnWriteArrayList<>();
+    public static final String WELCOME_MESSAGE = "Hello! Welcome to the Store. The Store language is "
+            + Store.getInstance().getStoreLocale().getDisplayLanguage() + ". The Store currency is "
+            + Store.getInstance().getStoreCurrency() + '\n';
+    DatabaseHelper databaseHelper = new DatabaseHelper();
 
     private Store() {
         categoryList = new LinkedHashSet<>();
@@ -55,6 +60,7 @@ public class Store {
     }
 
     public Set<Category> getListOfCategories() {
+        categoryList = new DatabaseHelper().getCategoriesFromDatabase();
         return categoryList;
     }
 
@@ -65,14 +71,24 @@ public class Store {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        categoryList.forEach(i -> stringBuilder.append(i.toString()));
+        getListOfCategories().forEach(category -> stringBuilder.append('\n' + "Category: ")
+                .append(category.getCategoryName())
+                .append('\n')
+                .append(new PresentProductsAsTable().getProductsAsTable(
+                        databaseHelper.getProductsPerCategoryFromDatabase(category))));
         return stringBuilder.toString();
     }
 
     public List<Product> getListOfAllProducts() {
-        return categoryList.stream()
-                .map(Category::getListOfProducts)
+        return getListOfCategories().stream()
+                .map(category -> databaseHelper.getProductsPerCategoryFromDatabase(category))
                 .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getAllCategories() {
+        return getListOfCategories().stream()
+                .map(Category::getCategoryName)
                 .collect(Collectors.toList());
     }
 
@@ -82,15 +98,21 @@ public class Store {
 
     public void addPurchasedGods(Product product) {
         purchasedGods.add(product);
+        databaseHelper.addPurchasedGodsToDatabase(product);
     }
 
     public List<Product> getAllPurchasedGods() {
+        purchasedGods = databaseHelper.getAllPurchasedGodsFromDatabase();
         return purchasedGods;
     }
 
     public void clearPurchasedGodsCollection() {
-        log.info(CART_WAS_CLEANED_UP + '\n' + BACK_TO_THE_MAIN_MENU);
+        log.info(CART_WAS_CLEANED_UP);
         purchasedGods.clear();
+        databaseHelper.removeAllPurchasedGodsFromDatabase();
     }
 
+    public Product getProductByName(String productName) {
+        return databaseHelper.getProductByNameFromDatabase(productName);
+    }
 }

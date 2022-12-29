@@ -44,5 +44,4 @@ public class Category {
         return '\n' + "Category: " + categoryName + '\n'
                 + new PresentProductsAsTable().getProductsAsTable(listOfProducts);
     }
-
 }

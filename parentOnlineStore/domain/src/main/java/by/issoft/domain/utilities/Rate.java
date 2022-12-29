@@ -1,6 +1,6 @@
 package by.issoft.domain.utilities;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,11 +16,9 @@ public class Rate {
     }
 
     public static Rate of(int rate) {
-        Preconditions.checkArgument(rate >= MIN_PRODUCT_RATE_VALUE, RATE_LESS_THAN_MIN_VALUE_ERROR_MESSAGE);
-        Preconditions.checkArgument(rate <= MAX_PRODUCT_RATE_VALUE, RATE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE + rate);
-
+        checkArgument(rate >= MIN_PRODUCT_RATE_VALUE, RATE_LESS_THAN_MIN_VALUE_ERROR_MESSAGE);
+        checkArgument(rate <= MAX_PRODUCT_RATE_VALUE, RATE_EXCEEDS_MAX_VALUE_ERROR_MESSAGE + rate);
         final Rate rateFromPool = poolOfRates.get(rate);
-
         if (rateFromPool != null) {
             return rateFromPool;
         }
@@ -36,5 +34,4 @@ public class Rate {
     public static String printRatesPool() {
         return poolOfRates.keySet().toString();
     }
-
 }
